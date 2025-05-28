@@ -1,4 +1,4 @@
-import { LogoIcon } from "@components/Icons";
+import { LogoIcon } from "@components/ui/Icons";
 import { Link } from "react-router-dom";
 
 export const Header = () => {

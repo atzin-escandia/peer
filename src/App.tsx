@@ -1,5 +1,6 @@
 import { Header } from "@components/ui/Header";
 import Home from "@pages/Home";
+import Meet from "@pages/Meet";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
         <div className="flex-1 py-5 mt-[60px]">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/meet" element={<Meet />} />
           </Routes>
         </div>
       </main>

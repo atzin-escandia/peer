@@ -4,8 +4,14 @@
 	font-family: "Poppins", sans-serif;
 	--bg-main-color: #f9edff;
 	--bg-color: #ffffff;
+	--bg-danger: #fdd3d3;
+
 	--text-color: #111827;
+	--text-danger: #111827;
+
 	--border-color: #000000;
+	--border-danger: #ff2a2a;
+
 	--header-bg: #ffffff;
 	--header-text: #111827;
 	--pattern-color: #0000001a;
