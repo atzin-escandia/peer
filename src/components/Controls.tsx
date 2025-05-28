@@ -1,23 +1,29 @@
 import Button from "./ui/Button";
-import { CameraIcon, CameraSlashIcon, CrossIcon, MicrophoneIcon, MicrophoneSlashIcon } from "./ui/Icons";
+import {
+    CameraIcon,
+    CameraSlashIcon,
+    MicrophoneIcon,
+    MicrophoneSlashIcon,
+    PhoneDisconnect,
+} from "./ui/Icons";
+import { useMediaContext } from "@context/MediaContext";
 
-type Props = {
-    onEndCall: () => void;
-    onToggleVideo: () => void;
-    onToggleAudio: () => void;
-    isAudioEnabled: boolean
-    isVideoEnabled: boolean
-};
+export const Controls = () => {
+    const {
+        toggleAudio,
+        toggleVideo,
+        isAudioEnabled,
+        isVideoEnabled,
+    } = useMediaContext();
 
-export const Controls = ({ onEndCall, onToggleAudio, onToggleVideo, isAudioEnabled, isVideoEnabled }: Props) => {
     const audioIcon = isAudioEnabled ? <MicrophoneIcon /> : <MicrophoneSlashIcon />;
     const videoIcon = isVideoEnabled ? <CameraIcon /> : <CameraSlashIcon />;
 
     return (
         <div className="flex gap-6 justify-center p-4">
-            <Button onClick={onToggleAudio} icon={audioIcon} />
-            <Button onClick={onToggleVideo} icon={videoIcon} />
-            <Button variant="danger" onClick={onEndCall} icon={<CrossIcon />} />
+            <Button variant={isAudioEnabled ? 'default' : "danger"} onClick={toggleAudio} icon={audioIcon} />
+            <Button variant={isVideoEnabled ? 'default' : "danger"} onClick={toggleVideo} icon={videoIcon} />
+            <Button variant="danger" icon={<PhoneDisconnect />} />
         </div>
-    )
+    );
 };
