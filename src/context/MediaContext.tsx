@@ -1,5 +1,5 @@
-import { useLocalMedia } from "@hooks/useLocalMedia";
 import { createContext, useContext } from "react";
+import { useLocalMedia } from "@hooks/useLocalMedia";
 
 type MediaContextType = {
     stream: MediaStream | null;
@@ -8,11 +8,11 @@ type MediaContextType = {
     toggleAudio: () => void;
     toggleVideo: () => void;
     endCall: () => void;
+    audioError: string | null;
+    videoError: string | null;
 };
 
-const MediaContext = createContext<MediaContextType | undefined>(
-    undefined
-);
+const MediaContext = createContext<MediaContextType | undefined>(undefined);
 
 export const MediaProvider = ({ children }: { children: React.ReactNode }) => {
     const media = useLocalMedia();

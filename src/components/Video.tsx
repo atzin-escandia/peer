@@ -1,8 +1,8 @@
+import { useMediaContext } from "@context/MediaContext";
 import { useEffect, useRef } from "react";
 
-type Props = { stream: MediaStream | null; muted?: boolean };
-
-export const Video = ({ stream, muted = false }: Props) => {
+export const Video = () => {
+    const { stream } = useMediaContext();
     const ref = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
@@ -16,8 +16,8 @@ export const Video = ({ stream, muted = false }: Props) => {
             ref={ref}
             autoPlay
             playsInline
-            muted={muted}
-            className="rounded-xl w-[70%] h-auto mx-auto"
+            muted={false}
+            className="rounded-xl mx-auto aspect-auto"
         />
     );
 };

@@ -3,10 +3,12 @@ import { MediaProvider } from "@context/MediaContext";
 import Home from "@pages/Home";
 import Meet from "@pages/Meet";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <Router>
+      <Toaster position="top-right" />
       <MediaProvider>
         <main className="flex flex-col min-h-screen">
           <Header />

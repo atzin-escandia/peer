@@ -14,16 +14,36 @@ export const Controls = () => {
         toggleVideo,
         isAudioEnabled,
         isVideoEnabled,
+        stream,
+        endCall,
     } = useMediaContext();
 
-    const audioIcon = isAudioEnabled ? <MicrophoneIcon /> : <MicrophoneSlashIcon />;
-    const videoIcon = isVideoEnabled ? <CameraIcon /> : <CameraSlashIcon />;
+    const audioActive = stream && isAudioEnabled;
+    const videoActive = stream && isVideoEnabled;
 
     return (
         <div className="flex gap-6 justify-center p-4">
-            <Button variant={isAudioEnabled ? 'default' : "danger"} onClick={toggleAudio} icon={audioIcon} />
-            <Button variant={isVideoEnabled ? 'default' : "danger"} onClick={toggleVideo} icon={videoIcon} />
-            <Button variant="danger" icon={<PhoneDisconnect />} />
+            <Button
+                onClick={toggleAudio}
+                variant={audioActive ? "default" : "danger"}
+                icon={audioActive ? <MicrophoneIcon /> : <MicrophoneSlashIcon />}
+                aria-label={audioActive ? "Mute microphone" : "Unmute microphone"}
+                disabled={!stream}
+            />
+            <Button
+                onClick={toggleVideo}
+                variant={videoActive ? "default" : "danger"}
+                icon={videoActive ? <CameraIcon /> : <CameraSlashIcon />}
+                aria-label={videoActive ? "Turn off camera" : "Turn on camera"}
+                disabled={!stream}
+            />
+            <Button
+                onClick={endCall}
+                variant="danger"
+                icon={<PhoneDisconnect />}
+                aria-label="End call"
+                disabled={!stream}
+            />
         </div>
     );
 };
