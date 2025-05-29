@@ -8,7 +8,6 @@ import {
 } from "./ui/Icons";
 import { useMediaContext } from "@context/MediaContext";
 import { useWebRTC } from "@hooks/useWebRTC";
-import { useState } from "react";
 
 export const Controls = () => {
     const {
@@ -20,8 +19,7 @@ export const Controls = () => {
         endCall,
     } = useMediaContext();
 
-    const { createPeer, applyRemoteSignal } = useWebRTC(stream!);
-    const [remoteSignal, setRemoteSignal] = useState("");
+    const { createPeer } = useWebRTC(stream!);
 
     const audioActive = stream && isAudioEnabled;
     const videoActive = stream && isVideoEnabled;
@@ -60,21 +58,6 @@ export const Controls = () => {
                     Join Call
                 </Button>
             </div>
-
-            <textarea
-                placeholder="The other codee"
-                value={remoteSignal}
-                onChange={(e) => setRemoteSignal(e.target.value)}
-                onBlur={() => {
-                    try {
-                        const data = JSON.parse(remoteSignal);
-                        applyRemoteSignal(data);
-                    } catch (err) {
-                        alert("Invalid signal JSON");
-                    }
-                }}
-                className="w-full max-w-md p-2 border rounded-md"
-            />
         </div>
     );
 };

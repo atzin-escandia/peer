@@ -1,9 +1,8 @@
 import Peer from "simple-peer";
-import { useDispatch, useSelector } from "react-redux";
-import type { RootState } from "@store/index";
+import { useEffect, useRef } from "react";
+import { useDispatch } from "react-redux";
 
 import {
-	setPeer,
 	setRemoteStream,
 	setSignalData,
 	setStatus,
@@ -12,7 +11,49 @@ import {
 
 export const useWebRTC = (localStream?: MediaStream) => {
 	const dispatch = useDispatch();
-	const peer = useSelector((state: RootState) => state.call.peer);
+	const peerRef = useRef<Peer.Instance | null>(null);
+	const ws = useRef<WebSocket | null>(null);
+	const pendingSignals = useRef<any[]>([]);
+
+	const PORT = import.meta.env.VITE_WS_PORT || 3001;
+	const WS_URL = import.meta.env.VITE_WS_URL || `ws://localhost:${PORT}`;
+
+	useEffect(() => {
+		ws.current = new WebSocket(WS_URL);
+
+		ws.current.onmessage = async (event) => {
+			try {
+				let text: string;
+
+				if (typeof event.data === "string") {
+					text = event.data;
+				} else if (event.data instanceof Blob) {
+					text = await event.data.text();
+				} else if (event.data instanceof ArrayBuffer) {
+					text = new TextDecoder().decode(event.data);
+				} else {
+					throw new Error("Unsupported message data type");
+				}
+
+				const data = JSON.parse(text);
+
+				if (data?.type === "signal") {
+					console.log("Received...");
+					if (peerRef.current) {
+						peerRef.current.signal(data.payload);
+					} else {
+						pendingSignals.current.push(data.payload);
+					}
+				}
+			} catch (err) {
+				console.error("Error", err);
+			}
+		};
+
+		return () => {
+			ws.current?.close();
+		};
+	}, []);
 
 	const createPeer = (initiator: boolean) => {
 		if (!localStream) return;
@@ -24,8 +65,8 @@ export const useWebRTC = (localStream?: MediaStream) => {
 		});
 
 		newPeer.on("signal", (data) => {
-			console.log("SIGNAL COPY ME:", JSON.stringify(data));
 			dispatch(setSignalData(data));
+			ws.current?.send(JSON.stringify({ type: "signal", payload: data }));
 		});
 
 		newPeer.on("stream", (remote) => {
@@ -37,13 +78,16 @@ export const useWebRTC = (localStream?: MediaStream) => {
 			dispatch(resetCall());
 		});
 
-		dispatch(setPeer(newPeer));
+		pendingSignals.current.forEach((sig) => newPeer.signal(sig));
+		pendingSignals.current = [];
+
+		peerRef.current = newPeer;
 		dispatch(setStatus("connecting"));
 	};
 
 	const applyRemoteSignal = (data: any) => {
 		try {
-			peer?.signal(data);
+			peerRef.current?.signal(data);
 		} catch (err) {
 			console.error("Invalid signal data", err);
 		}

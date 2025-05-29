@@ -4,7 +4,7 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
+		"dev": "concurrently \"vite\" \"node server/index.js\"",
 		"build": "tsc -b && vite build",
 		"lint": "eslint .",
 		"preview": "vite preview"
@@ -13,13 +13,15 @@
 		"@reduxjs/toolkit": "^2.8.2",
 		"buffer": "^6.0.3",
 		"clsx": "^2.1.1",
+		"dotenv": "^16.5.0",
 		"process": "^0.11.10",
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
 		"react-hot-toast": "^2.5.2",
 		"react-redux": "^9.2.0",
 		"react-router-dom": "^7.6.1",
-		"simple-peer": "9"
+		"simple-peer": "9",
+		"ws": "^8.18.2"
 	},
 	"devDependencies": {
 		"@esbuild-plugins/node-globals-polyfill": "^0.2.3",
@@ -31,6 +33,7 @@
 		"@types/react-dom": "^19.1.2",
 		"@types/simple-peer": "^9.11.8",
 		"@vitejs/plugin-react": "^4.4.1",
+		"concurrently": "^9.1.2",
 		"eslint": "^9.25.0",
 		"eslint-plugin-react-hooks": "^5.2.0",
 		"eslint-plugin-react-refresh": "^0.4.19",
