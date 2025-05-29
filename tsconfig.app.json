@@ -8,7 +8,8 @@
 			"@services/*": ["src/services/*"],
 			"@models/*": ["src/models/*"],
 			"@utils/*": ["src/utils/*"],
-			"@context/*": ["src/context/*"]
+			"@context/*": ["src/context/*"],
+			"@store/*": ["src/store/*"]
 		},
 		"tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
 		"target": "ES2020",
