@@ -14,7 +14,7 @@ const Home = () => {
                 Connect, collaborate and celebrate  from anywhere <br /> with Peer!
             </p>
             <Button
-                onClick={() => navigate("/meet")}
+                onClick={() => navigate("/pre-meet")}
                 icon={<CameraIcon />}>
                 New meeting
             </Button>

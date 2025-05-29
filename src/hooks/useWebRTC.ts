@@ -1,6 +1,7 @@
 import Peer from "simple-peer";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 
 import {
 	setRemoteStream,
@@ -65,16 +66,19 @@ export const useWebRTC = (localStream?: MediaStream) => {
 		});
 
 		newPeer.on("signal", (data) => {
+			console.log("Emitting...");
 			dispatch(setSignalData(data));
 			ws.current?.send(JSON.stringify({ type: "signal", payload: data }));
 		});
 
 		newPeer.on("stream", (remote) => {
+			console.log("Received...");
 			dispatch(setRemoteStream(remote));
 			dispatch(setStatus("connected"));
 		});
 
 		newPeer.on("close", () => {
+			console.log("Call ended!");
 			dispatch(resetCall());
 		});
 
@@ -89,7 +93,7 @@ export const useWebRTC = (localStream?: MediaStream) => {
 		try {
 			peerRef.current?.signal(data);
 		} catch (err) {
-			console.error("Invalid signal data", err);
+			console.error("Faileeeeed", err);
 		}
 	};
 

@@ -4,12 +4,14 @@ import {
     CameraSlashIcon,
     MicrophoneIcon,
     MicrophoneSlashIcon,
-    PhoneDisconnect,
+    PhoneDisconnectIcon,
 } from "./ui/Icons";
 import { useMediaContext } from "@context/MediaContext";
 import { useWebRTC } from "@hooks/useWebRTC";
+import { useSelector } from "react-redux";
+import type { RootState } from "@store/index";
 
-export const Controls = () => {
+export const Controls = ({ isPreMeet }: { isPreMeet?: boolean }) => {
     const {
         toggleAudio,
         toggleVideo,
@@ -20,44 +22,36 @@ export const Controls = () => {
     } = useMediaContext();
 
     const { createPeer } = useWebRTC(stream!);
+    const peer = useSelector((state: RootState) => state.call.peer);
 
     const audioActive = stream && isAudioEnabled;
     const videoActive = stream && isVideoEnabled;
 
     return (
-        <div className="flex flex-col items-center gap-4">
-            <div className="flex gap-6 justify-center p-4">
-                <Button
-                    onClick={toggleAudio}
-                    variant={audioActive ? "default" : "danger"}
-                    icon={audioActive ? <MicrophoneIcon /> : <MicrophoneSlashIcon />}
-                    aria-label={audioActive ? "Mute microphone" : "Unmute microphone"}
-                    disabled={!stream}
-                />
-                <Button
-                    onClick={toggleVideo}
-                    variant={videoActive ? "default" : "danger"}
-                    icon={videoActive ? <CameraIcon /> : <CameraSlashIcon />}
-                    aria-label={videoActive ? "Turn off camera" : "Turn on camera"}
-                    disabled={!stream}
-                />
-                <Button
+        <div className="flex gap-6 justify-center p-4">
+            <Button
+                onClick={toggleAudio}
+                variant={audioActive ? "default" : "danger"}
+                icon={audioActive ? <MicrophoneIcon /> : <MicrophoneSlashIcon />}
+                aria-label={audioActive ? "Mute microphone" : "Unmute microphone"}
+                disabled={!stream}
+            />
+            <Button
+                onClick={toggleVideo}
+                variant={videoActive ? "default" : "danger"}
+                icon={videoActive ? <CameraIcon /> : <CameraSlashIcon />}
+                aria-label={videoActive ? "Turn off camera" : "Turn on camera"}
+                disabled={!stream}
+            />
+            {
+                !isPreMeet && <Button
                     onClick={endCall}
                     variant="danger"
-                    icon={<PhoneDisconnect />}
+                    icon={<PhoneDisconnectIcon />}
                     aria-label="End call"
                     disabled={!stream}
                 />
-            </div>
-
-            <div className="flex gap-2">
-                <Button onClick={() => createPeer(true)} disabled={!stream}>
-                    Start Call
-                </Button>
-                <Button onClick={() => createPeer(false)} disabled={!stream}>
-                    Join Call
-                </Button>
-            </div>
+            }
         </div>
     );
 };

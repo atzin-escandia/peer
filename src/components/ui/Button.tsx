@@ -10,7 +10,10 @@ type ButtonProps = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const baseStyles =
-    "inline-flex items-center gap-2 px-4 py-2 rounded-3xl border transition-transform duration-300 ease-in-out cursor-pointer hover:scale-105 w-fit";
+    "inline-flex items-center gap-2 px-4 py-2 rounded-3xl border transition-transform duration-300 ease-in-out w-fit";
+
+const hoverStyle = "hover:scale-105 cursor-pointer";
+const disabledStyle = "cursor-not-allowed opacity-60";
 
 const variantStyles = {
     default:
@@ -25,7 +28,13 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             <button
                 ref={ref}
                 disabled={disabled}
-                className={clsx(baseStyles, variantStyles[variant], className)}
+                className={clsx(
+                    baseStyles,
+                    variantStyles[variant],
+                    !disabled && hoverStyle,
+                    disabled && disabledStyle,
+                    className
+                )}
                 aria-disabled={disabled}
                 {...props}
             >

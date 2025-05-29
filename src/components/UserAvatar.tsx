@@ -1,10 +1,17 @@
+import { useUserContext } from "@context/UserContext";
+import clsx from "clsx";
+import { UserAddIcon } from "./ui/Icons";
+
 const UserAvatar = () => {
+    const { username } = useUserContext();
+    const initial = username.charAt(0).toUpperCase();
+
     return (
-        <img
-            className="w-30 rounded-full overflow-hidden border border-white"
-            src="https://randomuser.me/api/portraits/women/90.jpg"
-            alt='User avatar'
-        />
+        <div className={clsx('w-30 h-30 rounded-full flex items-center justify-center text-3xl font-bold text-[var(--text-color)]',
+            username ? 'bg-[var(--bg-main-color)] ' : 'bg-[var(--bg-danger)]'
+        )}>
+            {initial || <UserAddIcon size={50} />}
+        </div>
     );
 };
 

@@ -3,9 +3,15 @@ import toast from "react-hot-toast";
 import { useMediaContext } from "@context/MediaContext";
 import { Controls } from "@components/Controls";
 import MeetContent from "@components/MeetContent";
+import Button from "@components/ui/Button";
+import { useWebRTC } from "@hooks/useWebRTC";
+import { useSelector } from "react-redux";
+import type { RootState } from "@store/index";
 
 export const Meet = () => {
-    const { audioError, videoError } = useMediaContext();
+    const { audioError, videoError, stream } = useMediaContext();
+    const { createPeer } = useWebRTC(stream!);
+    const peer = useSelector((state: RootState) => state.call.peer);
 
     const audioToastShown = useRef(false);
     const videoToastShown = useRef(false);
@@ -30,6 +36,12 @@ export const Meet = () => {
                 <MeetContent />
             </div>
             <Controls />
+            {peer && (
+
+                <Button onClick={() => createPeer(false)} disabled={!stream}>
+                    Join Call
+                </Button>
+            )}
         </section>
     );
 };
