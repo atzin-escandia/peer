@@ -6,7 +6,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     return (
-        <section className="flex flex-col justify-center h-[calc(100vh-120px)] px-5 lg:px-20 xl:px-40 ">
+        <section className="flex flex-col justify-center h-[calc(100vh-60px)] px-5 lg:px-20 xl:px-40 ">
             <h2 className="text-5xl font-extrabold mb-4">
                 Video calls and  <br /> meetings for everyone
             </h2>

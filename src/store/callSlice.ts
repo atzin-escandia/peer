@@ -5,7 +5,7 @@ type CallState = {
 	peer?: Peer.Instance;
 	localStream?: MediaStream;
 	remoteStream?: MediaStream;
-	signalData?: any;
+	signalData?: MediaStream;
 	status: "idle" | "connecting" | "connected" | "disconnected" | "available";
 	meetingId?: string;
 };

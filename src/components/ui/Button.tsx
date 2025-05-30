@@ -6,7 +6,7 @@ type ButtonProps = {
     children?: React.ReactNode;
     disabled?: boolean;
     icon?: React.ReactNode;
-    variant?: "default" | "danger";
+    variant?: "default" | "danger" | "ghost";
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const baseStyles =
@@ -20,6 +20,7 @@ const variantStyles = {
         "bg-[var(--bg-color)] text-[var(--text-color)] border-b border-[var(--border-color)]",
     danger:
         "bg-[var(--bg-danger)] text-[var(--border-danger)] border border-red-500",
+    ghost: "border-none p-0"
 };
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(

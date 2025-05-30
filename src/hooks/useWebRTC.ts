@@ -1,12 +1,15 @@
 import Peer from "simple-peer";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
 import {
 	setRemoteStream,
 	setSignalData,
 	setStatus,
 	resetCall,
+	setPeer,
+	setMeetingId,
 } from "@store/callSlice";
 
 export const useWebRTC = (localStream?: MediaStream) => {
@@ -14,6 +17,7 @@ export const useWebRTC = (localStream?: MediaStream) => {
 	const peerRef = useRef<Peer.Instance | null>(null);
 	const ws = useRef<WebSocket | null>(null);
 	const pendingSignals = useRef<any[]>([]);
+	const currentMeetingId = useRef<string | null>(null);
 
 	const PORT = import.meta.env.VITE_WS_PORT || 3001;
 	const WS_URL = import.meta.env.VITE_WS_URL || `ws://localhost:${PORT}`;
@@ -37,8 +41,11 @@ export const useWebRTC = (localStream?: MediaStream) => {
 
 				const data = JSON.parse(text);
 
-				if (data?.type === "signal") {
-					console.log("Received signal...");
+				if (
+					data?.type === "signal" &&
+					data.meetingId === currentMeetingId.current
+				) {
+					console.log("Received signal for meeting", data.meetingId);
 					if (peerRef.current) {
 						peerRef.current.signal(data.payload);
 					} else {
@@ -55,8 +62,17 @@ export const useWebRTC = (localStream?: MediaStream) => {
 		};
 	}, []);
 
-	const createPeer = (initiator: boolean) => {
-		if (!localStream) return;
+	const createPeer = (initiator: boolean, meetingId?: string) => {
+		if (!localStream) {
+			console.warn("No local stream available");
+			return;
+		}
+
+		dispatch(setStatus("connecting"));
+
+		const id = meetingId || uuidv4();
+		currentMeetingId.current = id;
+		dispatch(setMeetingId(id));
 
 		const newPeer = new Peer({
 			initiator,
@@ -65,34 +81,47 @@ export const useWebRTC = (localStream?: MediaStream) => {
 		});
 
 		newPeer.on("signal", (data) => {
-			console.log("Emitting...");
+			console.log("Sending signal...", data);
+			dispatch(setStatus("available"));
 			dispatch(setSignalData(data));
-			ws.current?.send(JSON.stringify({ type: "signal", payload: data }));
+
+			ws.current?.send(
+				JSON.stringify({ type: "signal", payload: data, meetingId: id })
+			);
 		});
 
 		newPeer.on("stream", (remote) => {
-			console.log("Received...");
+			console.log("Received remote stream");
 			dispatch(setRemoteStream(remote));
 			dispatch(setStatus("connected"));
 		});
 
 		newPeer.on("close", () => {
-			console.log("Call ended!");
+			console.log("Peer connection closed");
 			dispatch(resetCall());
+			currentMeetingId.current = null;
 		});
 
+		newPeer.on("error", (err) => {
+			console.error("Peer error:", err);
+			dispatch(resetCall());
+			currentMeetingId.current = null;
+		});
+
+		// Process any pending signals that arrived before the peer was created
 		pendingSignals.current.forEach((sig) => newPeer.signal(sig));
 		pendingSignals.current = [];
 
 		peerRef.current = newPeer;
-		dispatch(setStatus("connecting"));
+		dispatch(setPeer(newPeer));
 	};
 
-	const applyRemoteSignal = (data: any) => {
+	// Function to apply a remote signal manually (optional)
+	const applyRemoteSignal = (signalData: any) => {
 		try {
-			peerRef.current?.signal(data);
+			peerRef.current?.signal(signalData);
 		} catch (err) {
-			console.error("Faileeeeed", err);
+			console.error("Failed to apply remote signal", err);
 		}
 	};
 

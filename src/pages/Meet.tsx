@@ -4,8 +4,9 @@ import PreMeet from "@components/PreMeet";
 import { useSelector } from "react-redux";
 import type { RootState } from "@store/index";
 import { CopyCodeToast } from "@components/toasters/CopyCodeToast";
-import { VideoPlaceholder } from "@components/ui/VideoPlaceholder";
 import { Controls } from "@components/Controls";
+import { LocalVideo } from "@components/videos/LocalVideo";
+import { RemoteVideo } from "@components/videos/RemoteVideo";
 
 export const Meet = () => {
     const status = useSelector((state: RootState) => state.call.status);
@@ -31,10 +32,9 @@ export const Meet = () => {
     // }
 
     return (
-        <section className="flex flex-col justify-center items-center h-[calc(100vh-120px)] px-5 lg:px-20 xl:px-40">
-            <div className="w-full max-w-4xl mb-6">
-                <VideoPlaceholder />
-            </div>
+        <section className="relative flex flex-col justify-center items-center h-[calc(100vh-60px)] bg-black">
+            <LocalVideo isMeet />
+            <RemoteVideo />
             <Controls />
         </section>
     );
