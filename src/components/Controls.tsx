@@ -7,10 +7,6 @@ import {
     PhoneDisconnectIcon,
 } from "./ui/Icons";
 import { useMediaContext } from "@context/MediaContext";
-import { useWebRTC } from "@hooks/useWebRTC";
-import { useSelector } from "react-redux";
-import type { RootState } from "@store/index";
-
 export const Controls = ({ isPreMeet }: { isPreMeet?: boolean }) => {
     const {
         toggleAudio,
@@ -20,9 +16,6 @@ export const Controls = ({ isPreMeet }: { isPreMeet?: boolean }) => {
         stream,
         endCall,
     } = useMediaContext();
-
-    const { createPeer } = useWebRTC(stream!);
-    const peer = useSelector((state: RootState) => state.call.peer);
 
     const audioActive = stream && isAudioEnabled;
     const videoActive = stream && isVideoEnabled;

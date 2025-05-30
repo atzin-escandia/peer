@@ -1,7 +1,6 @@
 import Peer from "simple-peer";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import toast from "react-hot-toast";
 
 import {
 	setRemoteStream,
@@ -39,7 +38,7 @@ export const useWebRTC = (localStream?: MediaStream) => {
 				const data = JSON.parse(text);
 
 				if (data?.type === "signal") {
-					console.log("Received...");
+					console.log("Received signal...");
 					if (peerRef.current) {
 						peerRef.current.signal(data.payload);
 					} else {

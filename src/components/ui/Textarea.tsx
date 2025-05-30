@@ -1,14 +1,15 @@
 import { clsx } from "clsx";
-import { forwardRef } from "react";
+import { forwardRef, type TextareaHTMLAttributes } from "react";
 
-type InputProps = {
-    className?: string;
+interface TextareaProps
+    extends TextareaHTMLAttributes<HTMLTextAreaElement> {
     icon?: React.ReactNode;
-    errorMessage?: string;
     error?: boolean;
-} & React.InputHTMLAttributes<HTMLInputElement>;
+    errorMessage?: string;
+    title?: string;
+}
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
+const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     ({ className = "", icon: Icon, error, errorMessage, title, id, ...props }, ref) => {
         return (
             <div className="relative">
@@ -22,16 +23,15 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                         {Icon}
                     </div>
                 )}
-                <input
+                <textarea
                     ref={ref}
                     id={id}
                     aria-invalid={error ? "true" : "false"}
+                    aria-describedby={error ? `${id}-error` : undefined}
                     className={clsx(
-                        "flex w-full text-xs rounded-lg border border-black bg-white px-4 py-2 focus:outline-none focus:ring-2 font-semibold capitalize",
-                        error
-                            ? "border-red-500 focus:ring-red-500"
-                            : "border-black ",
-                        Icon ? 'pl-10' : 'pl-3',
+                        "flex w-full text-xs rounded-lg border border-black bg-white px-4 py-2 focus:outline-none focus:ring-2",
+                        error ? "border-red-500 focus:ring-red-500" : "border-black",
+                        Icon ? "pl-10" : "pl-3",
                         className
                     )}
                     {...props}
@@ -46,4 +46,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     }
 );
 
-export default Input;
+Textarea.displayName = "Textarea";
+
+export default Textarea;

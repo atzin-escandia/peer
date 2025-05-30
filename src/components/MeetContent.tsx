@@ -1,28 +1,13 @@
-import { useMediaContext } from "@context/MediaContext";
-import { Video } from "@components/Video";
 import { VideoPlaceholder } from "@components/ui/VideoPlaceholder";
-import UserAvatar from "@components/UserAvatar";
+import { Controls } from "./Controls";
 
 const MeetContent = () => {
-    const { stream, videoError, isVideoEnabled } = useMediaContext();
-
-    if (stream && isVideoEnabled) {
-        return <Video />;
-    }
-
-    let content: React.ReactNode;
-
-    if (!stream) {
-        if (videoError) {
-            content = <UserAvatar />;
-        } else {
-            content = <p className="text-center text-gray-500">Loading video...</p>;
-        }
-    } else {
-        content = <UserAvatar />;
-    }
-
-    return <VideoPlaceholder>{content}</VideoPlaceholder>;
+    return <section className="flex flex-col justify-center items-center h-[calc(100vh-120px)] px-5 lg:px-20 xl:px-40">
+        <div className="w-full max-w-4xl mb-6">
+            <VideoPlaceholder />
+        </div>
+        <Controls />
+    </section>
 };
 
 export default MeetContent;
