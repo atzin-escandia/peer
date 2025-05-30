@@ -5,7 +5,7 @@ import Tabs from "@components/ui/Tab";
 import TabsContent from "./TabsMeeting";
 import { useMediaContext } from "@context/MediaContext";
 import { useWebRTC } from "@hooks/useWebRTC";
-import { LocalVideo } from "./videos/LocalVideo";
+import { LocalVideo } from "./LocalVideo";
 
 const PreMeet = () => {
     const { stream } = useMediaContext();

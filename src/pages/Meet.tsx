@@ -1,41 +1,66 @@
 import { useEffect } from "react";
 import toast from "react-hot-toast";
-import PreMeet from "@components/PreMeet";
 import { useSelector } from "react-redux";
 import type { RootState } from "@store/index";
+import PreMeet from "@components/PreMeet";
 import { CopyCodeToast } from "@components/toasters/CopyCodeToast";
 import { Controls } from "@components/Controls";
-import { LocalVideo } from "@components/videos/LocalVideo";
-import { RemoteVideo } from "@components/videos/RemoteVideo";
+import { LocalVideo } from "@components/LocalVideo";
+import { RemoteVideo } from "@components/RemoteVideo";
+import Loading from "@components/Loading";
+import Button from "@components/ui/Button";
+import { CameraIcon } from "@components/ui/Icons";
 
 export const Meet = () => {
-    const status = useSelector((state: RootState) => state.call.status);
-    const meetingId = useSelector((state: RootState) => state.call.meetingId);
+    const { status, meetingId } = useSelector((state: RootState) => state.call);
 
     useEffect(() => {
-        if (status === "available") {
+        if (status === "available" && meetingId) {
             toast.custom(
-                (t) => <CopyCodeToast toast={t} meetingId={meetingId} />, { duration: Infinity }
+                (t) => <CopyCodeToast toast={t} meetingId={meetingId} />,
+                { duration: Infinity }
             );
         }
-    }, [status]);
+    }, [status, meetingId]);
 
-    console.log("status", status);
     if (status === "idle") return <PreMeet />;
-    if (status === "connecting") return <p>Loading...</p>;
-    // if (status === "disconnected") {
-    //     return (
-    //         <div className="h-screen flex items-center justify-center text-white">
-    //             <p>Call ended. Please refresh or start a new meeting.</p>
-    //         </div>
-    //     );
-    // }
+
+    const RenderContent = () => {
+        switch (status) {
+            case "connecting":
+                return <Loading />;
+
+            case "disconnected":
+                return (
+                    <div className="text-center space-y-10">
+                        <p className="text-white">
+                            Call ended. Please start a new meeting.
+                        </p>
+                        <Button
+                            onClick={() => window.location.reload()}
+                            icon={<CameraIcon />}
+                        >
+                            New meeting
+                        </Button>
+                    </div>
+                );
+
+            default:
+                return (
+                    <div className="space-y-5">
+                        <div className="relative w-full h-[calc(100vh-200px)]">
+                            <LocalVideo isMeet />
+                            <RemoteVideo />
+                        </div>
+                        <Controls />
+                    </div>
+                );
+        }
+    };
 
     return (
         <section className="relative flex flex-col justify-center items-center h-[calc(100vh-60px)] bg-black">
-            <LocalVideo isMeet />
-            <RemoteVideo />
-            <Controls />
+            <RenderContent />
         </section>
     );
 };

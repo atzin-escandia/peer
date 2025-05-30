@@ -33,13 +33,12 @@ export const RemoteVideo = () => {
         }
     }, [stream]);
 
-    return (
-        <video
-            ref={localRef}
-            autoPlay
-            playsInline
-            muted
-            className="rounded-xl aspect-video w-full"
-        />
+    return (<video
+        ref={localRef}
+        autoPlay
+        playsInline
+        muted
+        className="aspect-video w-full h-full"
+    />
     );
 };

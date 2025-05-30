@@ -53,7 +53,9 @@ export const JoinMeetForm = ({ createPeer }: JoinMeetFormProps) => {
                 <Input
                     title="Your name"
                     placeholder="e.g. Atzin"
-                    {...register("username")}
+                    {...register("username", {
+                        onChange: (e) => setUsername(e.target.value),
+                    })}
                     error={!!errors.username}
                     errorMessage={errors.username?.message}
                 />

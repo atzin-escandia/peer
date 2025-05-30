@@ -10,7 +10,7 @@ type ButtonProps = {
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const baseStyles =
-    "inline-flex items-center gap-2 px-4 py-2 rounded-3xl border transition-transform duration-300 ease-in-out w-fit";
+    "inline-flex items-center gap-2 px-4 py-2 rounded-3xl border transition-transform duration-300 ease-in-out w-fit font-bold";
 
 const hoverStyle = "hover:scale-105 cursor-pointer";
 const disabledStyle = "cursor-not-allowed opacity-60";
