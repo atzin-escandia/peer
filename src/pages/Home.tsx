@@ -7,9 +7,9 @@ const Home = () => {
 
     return (
         <section className="flex flex-col justify-center h-[calc(100vh-60px)] px-5 lg:px-20 xl:px-40 ">
-            <h2 className="text-7xl font-extrabold mb-4">
+            <h1 className="text-7xl font-extrabold mb-4">
                 Video calls and  <br /> meetings for everyone
-            </h2>
+            </h1>
             <p className="text-xl mb-10">
                 Connect, collaborate and celebrate  from anywhere <br /> with Peer!
             </p>

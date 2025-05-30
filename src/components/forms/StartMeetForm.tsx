@@ -42,12 +42,12 @@ export const StartMeetForm = ({ createPeer }: StartMeetFormProps) => {
     return (
         <div className="flex flex-col items-center justify-center mt-10">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <h2 className="text-4xl font-bold mb-6 text-center text-gray-800">
+                <h2 className="text-4xl font-bold mb-6 text-center ">
                     Start meeting
                 </h2>
                 <Input
                     title="Your name"
-                    placeholder="e.g. Atzin"
+                    placeholder="Name"
                     {...register("username", {
                         onChange: (e) => setUsername(e.target.value),
                     })}

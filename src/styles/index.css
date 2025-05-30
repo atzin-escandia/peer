@@ -22,6 +22,17 @@
 	--pattern-color: #0000001a;
 }
 
+.dark {
+	--bg-main-color: #220523;
+	--bg-color: #000000;
+
+	--text-color: #bababa;
+	--border-color: #555555;
+	--header-bg: #000000;
+	--header-text: #ffffff;
+	--pattern-color: #ffffff1a;
+}
+
 body {
 	background-image: linear-gradient(
 			90deg,

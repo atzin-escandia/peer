@@ -5,6 +5,7 @@ import Meet from "@pages/Meet";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { UserProvider } from "@context/UserContext";
+import { ThemeProvider } from "@context/ThemeContext";
 
 function App() {
   return (
@@ -12,15 +13,17 @@ function App() {
       <Toaster position="top-right" />
       <MediaProvider>
         <UserProvider>
-          <main className="flex flex-col min-h-screen">
-            <Header />
-            <div className="flex-1 mt-[60px]">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/meet" element={<Meet />} />
-              </Routes>
-            </div>
-          </main>
+          <ThemeProvider>
+            <main className="flex flex-col min-h-screen">
+              <Header />
+              <div className="flex-1 mt-[60px]">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/meet" element={<Meet />} />
+                </Routes>
+              </div>
+            </main>
+          </ThemeProvider>
         </UserProvider>
       </MediaProvider>
     </Router>

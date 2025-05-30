@@ -27,7 +27,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                     id={id}
                     aria-invalid={error ? "true" : "false"}
                     className={clsx(
-                        "flex w-full text-xs rounded-lg border border-black bg-white px-4 py-2 focus:outline-none focus:ring-2 font-semibold capitalize",
+                        "flex w-full text-black text-xs rounded-lg border border-black bg-white px-4 py-2 focus:outline-none focus:ring-2 font-semibold capitalize",
                         error
                             ? "border-red-500 focus:ring-red-500"
                             : "border-black ",

@@ -1,5 +1,6 @@
-import { LogoIcon } from "@components/ui/Icons";
 import { Link } from "react-router-dom";
+import { LogoIcon } from "./Icons";
+import ThemeToggleButton from "@components/ThemeToggle";
 
 export const Header = () => {
     return (
@@ -8,9 +9,12 @@ export const Header = () => {
                 <Link className="flex items-center" to="/">
                     <LogoIcon size={40} />
                     <h1 className="ml-2 whitespace-nowrap font-extrabold text-xl md:text-2xl lg:text-3xl hidden sm:block">
-                        PeerMeet
+                        Snap Grid
                     </h1>
                 </Link>
+                <div className="flex gap-2 sm:gap-5">
+                    <ThemeToggleButton />
+                </div>
             </div>
         </header>
     );

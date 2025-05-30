@@ -29,7 +29,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                     aria-invalid={error ? "true" : "false"}
                     aria-describedby={error ? `${id}-error` : undefined}
                     className={clsx(
-                        "flex w-full text-xs rounded-lg border border-black bg-white px-4 py-2 focus:outline-none focus:ring-2",
+                        "flex w-full text-xs rounded-lg border border-black bg-white px-4 py-2 focus:outline-none focus:ring-2 text-black",
                         error ? "border-red-500 focus:ring-red-500" : "border-black",
                         Icon ? "pl-10" : "pl-3",
                         className

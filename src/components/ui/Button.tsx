@@ -17,7 +17,7 @@ const disabledStyle = "cursor-not-allowed opacity-60";
 
 const variantStyles = {
     default:
-        "bg-[var(--bg-color)] text-[var(--text-color)] border-b border-[var(--border-color)]",
+        "bg-[var(--bg-color)] border-b border-[var(--border-color)]",
     danger:
         "bg-[var(--bg-danger)] text-[var(--border-danger)] border border-red-500",
     ghost: "border-none p-0"

@@ -21,7 +21,7 @@ const Tabs = ({ tabs }: TabsProps) => {
                         key={id}
                         className={`flex-1 py-2 px-4 text-center cursor-pointer transition-colors ${activeTab === id
                             ? "border-b-2 border-[var(--border-main)] font-semibold text-[var(--text-main)]"
-                            : "text-black/60 hover:text-[var(--text-main)]/60"
+                            : "hover:text-[var(--text-main)]/90"
                             }`}
                         onClick={() => setActiveTab(id)}
                         aria-selected={activeTab === id}

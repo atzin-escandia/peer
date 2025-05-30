@@ -47,12 +47,12 @@ export const JoinMeetForm = ({ createPeer }: JoinMeetFormProps) => {
     return (
         <div className="flex flex-col items-center justify-center mt-10">
             <form onSubmit={handleSubmit(onSubmit)} className="gap-10 space-y-5">
-                <h2 className="text-4xl font-bold mb-6 text-center text-gray-800">
+                <h2 className="text-4xl font-bold mb-6 text-center">
                     Join meeting
                 </h2>
                 <Input
-                    title="Your name"
-                    placeholder="e.g. Atzin"
+                    placeholder="Name"
+                    placeholder="A cool name"
                     {...register("username", {
                         onChange: (e) => setUsername(e.target.value),
                     })}
