@@ -3,10 +3,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
-import { useWebRTC } from "@hooks/useWebRTC";
 import { useMediaContext } from "@context/MediaContext";
 import { useUserContext } from "@context/UserContext";
-// import { useNavigate } from "react-router-dom";
 
 const usernameSchema = z.object({
     username: z
@@ -17,10 +15,12 @@ const usernameSchema = z.object({
 
 type FormData = z.infer<typeof usernameSchema>;
 
-export const StartMeetForm = () => {
-    // const navigate = useNavigate();
+type StartMeetFormProps = {
+    createPeer: (isOffer: boolean) => void;
+};
+
+export const StartMeetForm = ({ createPeer }: StartMeetFormProps) => {
     const { stream } = useMediaContext();
-    const { createPeer } = useWebRTC(stream!);
     const { username, setUsername } = useUserContext();
 
     const {
@@ -35,10 +35,8 @@ export const StartMeetForm = () => {
         },
     });
 
-    const onSubmit = async () => {
-        await createPeer(true);
-        console.log('ha llegado')
-        // navigate("/meet");
+    const onSubmit = () => {
+        createPeer(true);
     };
 
     return (

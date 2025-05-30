@@ -1,32 +1,43 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
-import { useMediaContext } from "@context/MediaContext";
-import MeetContent from "@components/MeetContent";
 import PreMeet from "@components/PreMeet";
 import { useSelector } from "react-redux";
 import type { RootState } from "@store/index";
+import { CopyCodeToast } from "@components/toasters/CopyCodeToast";
+import { VideoPlaceholder } from "@components/ui/VideoPlaceholder";
+import { Controls } from "@components/Controls";
 
 export const Meet = () => {
-    const { audioError, videoError } = useMediaContext();
-    const audioToastShown = useRef(false);
-    const videoToastShown = useRef(false);
-    const peer = useSelector((state: RootState) => state.call.peer);
+    const status = useSelector((state: RootState) => state.call.status);
+    const meetingId = useSelector((state: RootState) => state.call.meetingId);
 
     useEffect(() => {
-        if (audioError && !audioToastShown.current) {
-            toast("Give access to microphone", { icon: "📸" });
-            audioToastShown.current = true;
+        if (status === "available") {
+            toast.custom(
+                (t) => <CopyCodeToast toast={t} meetingId={meetingId} />, { duration: Infinity }
+            );
         }
-    }, [audioError]);
+    }, [status]);
 
-    useEffect(() => {
-        if (videoError && !videoToastShown.current) {
-            toast("Give access to camera", { icon: "🎙️" });
-            videoToastShown.current = true;
-        }
-    }, [videoError]);
+    console.log("status", status);
+    if (status === "idle") return <PreMeet />;
+    if (status === "connecting") return <p>Loading...</p>;
+    // if (status === "disconnected") {
+    //     return (
+    //         <div className="h-screen flex items-center justify-center text-white">
+    //             <p>Call ended. Please refresh or start a new meeting.</p>
+    //         </div>
+    //     );
+    // }
 
-    return peer ? <MeetContent /> : <PreMeet />;
+    return (
+        <section className="flex flex-col justify-center items-center h-[calc(100vh-120px)] px-5 lg:px-20 xl:px-40">
+            <div className="w-full max-w-4xl mb-6">
+                <VideoPlaceholder />
+            </div>
+            <Controls />
+        </section>
+    );
 };
 
 export default Meet;

@@ -5,7 +5,6 @@ import Button from "../ui/Button";
 import Input from "../ui/Input";
 import Textarea from "@components/ui/Textarea";
 
-import { useWebRTC } from "@hooks/useWebRTC";
 import { useMediaContext } from "@context/MediaContext";
 import { useUserContext } from "@context/UserContext";
 
@@ -19,9 +18,12 @@ const joinMeetSchema = z.object({
 
 type FormData = z.infer<typeof joinMeetSchema>;
 
-export const JoinMeetForm = () => {
+type JoinMeetFormProps = {
+    createPeer: (isOffer: boolean, code?: string) => void;
+};
+
+export const JoinMeetForm = ({ createPeer }: JoinMeetFormProps) => {
     const { stream } = useMediaContext();
-    const { createPeer } = useWebRTC(stream!);
     const { setUsername, username } = useUserContext();
 
     const {
@@ -37,10 +39,9 @@ export const JoinMeetForm = () => {
         },
     });
 
-    const onSubmit = async (data: FormData) => {
-        setUsername(data.username); // Ensure context is updated on submit
-        await createPeer(false);
-        // TODO: navigate(`/meet/${data.newCode}`)
+    const onSubmit = (data: FormData) => {
+        setUsername(data.username);
+        createPeer(false, data.newCode);
     };
 
     return (
@@ -49,7 +50,6 @@ export const JoinMeetForm = () => {
                 <h2 className="text-4xl font-bold mb-6 text-center text-gray-800">
                     Join meeting
                 </h2>
-
                 <Input
                     title="Your name"
                     placeholder="e.g. Atzin"
@@ -57,7 +57,6 @@ export const JoinMeetForm = () => {
                     error={!!errors.username}
                     errorMessage={errors.username?.message}
                 />
-
                 <Textarea
                     title="Enter code"
                     placeholder="Enter code"
@@ -65,7 +64,6 @@ export const JoinMeetForm = () => {
                     error={!!errors.newCode}
                     errorMessage={errors.newCode?.message}
                 />
-
                 <div className="flex justify-center mt-5">
                     <Button type="submit" disabled={!isValid || !stream}>
                         Join Call
