@@ -1,28 +1,38 @@
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import type { RootState } from "@store/index";
-import PreMeet from "@components/PreMeet";
-import { Controls } from "@components/Controls";
+import { useMediaContext } from "@context/MediaContext";
+import { useWebRTC } from "@hooks/useWebRTC";
 import { LocalVideo } from "@components/LocalVideo";
 import { RemoteVideo } from "@components/RemoteVideo";
-import Loading from "@components/Loading";
 import Button from "@components/ui/Button";
-import { CameraIcon, ChatIcon, } from "@components/ui/Icons";
-import Chat from "@components/Chat";
+import { CameraIcon, ChatIcon } from "@components/ui/Icons";
+import { Controls } from "@components/Controls";
+import Loading from "@components/Loading";
 import { MeetingCodeDialog } from "@components/MeetingCodeDialog";
+import Chat from "@components/Chat";
+import { useSelector } from "react-redux";
+import type { RootState } from "@store/index";
 
-export const Meet = () => {
-    const { status, meetingId } = useSelector((state: RootState) => state.call);
-    const [isChatOpen, setIsChatOpen] = useState(false);
+const MeetRoom = () => {
+    const { id } = useParams<{ id: string }>();
+    const { stream } = useMediaContext();
+    const { createPeer } = useWebRTC(stream!);
     const [open, setOpen] = useState(false);
+    const [isChatOpen, setIsChatOpen] = useState(false);
+    const { status } = useSelector((state: RootState) => state.call);
 
     useEffect(() => {
-        if (status === "available" && meetingId) {
+        if (id && stream) {
+            createPeer(true);
+        }
+    }, [id, stream]);
+
+    useEffect(() => {
+        if (status === "available" && id) {
             setOpen(true)
         }
-    }, [status, meetingId]);
+    }, [status, id]);
 
-    if (status === "idle") return <PreMeet />;
 
     const RenderContent = () => {
         switch (status) {
@@ -59,7 +69,7 @@ export const Meet = () => {
                             </div>
                         </div>
                         {isChatOpen && <Chat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />}
-                        <MeetingCodeDialog open={open} setOpen={setOpen} meetingId={meetingId as string} />
+                        <MeetingCodeDialog open={open} setOpen={setOpen} meetingId={id as string} />
                     </div>
                 );
         }
@@ -72,4 +82,4 @@ export const Meet = () => {
     );
 };
 
-export default Meet;
+export default MeetRoom;

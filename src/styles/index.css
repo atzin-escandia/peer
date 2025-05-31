@@ -6,16 +6,19 @@
 	--bg-color: #ffffff;
 	--bg-danger: #fdd3d3;
 	--bg-warning: #fdf6d3;
+	--bg-success: #dffbe0;
 
 	--text-main: #9333ea;
 	--text-color: #111827;
 	--text-danger: #111827;
 	--text-warning: #c9591d;
+	--text-success: #178b21;
 
 	--border-main: #a855f7;
 	--border-color: #000000;
 	--border-danger: #ff2a2a;
 	--border-warning: #ffc32a;
+	--border-success: #20ba2d;
 
 	--header-bg: #ffffff;
 	--header-text: #111827;

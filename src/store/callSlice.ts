@@ -5,9 +5,8 @@ type CallState = {
 	peer?: Peer.Instance;
 	localStream?: MediaStream;
 	remoteStream?: MediaStream;
-	signalData?: MediaStream;
+	signalData?: Peer.SignalData;
 	status: "idle" | "connecting" | "connected" | "disconnected" | "available";
-	meetingId?: string;
 };
 
 const initialState: CallState = {
@@ -18,23 +17,17 @@ const callSlice = createSlice({
 	name: "call",
 	initialState,
 	reducers: {
-		setPeer(state, action: PayloadAction<Peer.Instance>) {
-			state.peer = action.payload;
-		},
 		setLocalStream(state, action: PayloadAction<MediaStream>) {
 			state.localStream = action.payload;
 		},
 		setRemoteStream(state, action: PayloadAction<MediaStream>) {
 			state.remoteStream = action.payload;
 		},
-		setSignalData(state, action: PayloadAction<MediaStream>) {
+		setSignalData(state, action: PayloadAction<Peer.SignalData>) {
 			state.signalData = action.payload;
 		},
 		setStatus(state, action: PayloadAction<CallState["status"]>) {
 			state.status = action.payload;
-		},
-		setMeetingId(state, action: PayloadAction<string>) {
-			state.meetingId = action.payload;
 		},
 		resetCall(state) {
 			if (state.peer) state.peer.destroy();
@@ -44,12 +37,10 @@ const callSlice = createSlice({
 });
 
 export const {
-	setPeer,
 	setLocalStream,
 	setRemoteStream,
 	setSignalData,
 	setStatus,
-	setMeetingId,
 	resetCall,
 } = callSlice.actions;
 

@@ -5,6 +5,8 @@ import Button from "../ui/Button";
 import Input from "../ui/Input";
 import { useMediaContext } from "@context/MediaContext";
 import { useUserContext } from "@context/UserContext";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
 const usernameSchema = z.object({
     username: z
@@ -15,13 +17,10 @@ const usernameSchema = z.object({
 
 type FormData = z.infer<typeof usernameSchema>;
 
-type StartMeetFormProps = {
-    createPeer: (isOffer: boolean) => void;
-};
-
-export const StartMeetForm = ({ createPeer }: StartMeetFormProps) => {
+export const StartMeetForm = () => {
     const { stream } = useMediaContext();
     const { username, setUsername } = useUserContext();
+    const navigate = useNavigate();
 
     const {
         register,
@@ -36,7 +35,8 @@ export const StartMeetForm = ({ createPeer }: StartMeetFormProps) => {
     });
 
     const onSubmit = () => {
-        createPeer(true);
+        const newMeetingId = uuidv4();
+        navigate(`/meet/${newMeetingId}`);
     };
 
     return (

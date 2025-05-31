@@ -12,7 +12,7 @@ const baseStyles =
 
 const variantStyles = {
     success:
-        "bg-[var(--bg-main-color)] text-[var(--text-color)] border-[var(--border-color)]",
+        "bg-[var(--bg-success)] text-[var(--text-success)] border-[var(--border-success)]",
     warning:
         "bg-[var(--bg-warning)] text-[var(--text-warning)] border-[var(--border-warning)]",
     danger:

@@ -1,26 +1,21 @@
 import { JoinMeetForm } from "@components/forms/JoinMeetForm";
 import { StartMeetForm } from "@components/forms/StartMeetForm";
+import { LocalVideo } from "@components/LocalVideo";
+import TabsContent from "@components/TabsMeeting";
 import Card from "@components/ui/Card";
 import Tabs from "@components/ui/Tab";
-import TabsContent from "./TabsMeeting";
-import { useMediaContext } from "@context/MediaContext";
-import { useWebRTC } from "@hooks/useWebRTC";
-import { LocalVideo } from "./LocalVideo";
 
-const PreMeet = () => {
-    const { stream } = useMediaContext();
-    const { createPeer } = useWebRTC(stream!);
-
+const Meet = () => {
     const tabs = [
         {
             id: "start",
             label: "Start meeting",
-            content: <TabsContent FormComponent={(props) => <StartMeetForm {...props} createPeer={createPeer} />} />,
+            content: <TabsContent FormComponent={StartMeetForm} />,
         },
         {
             id: "join",
             label: "Join meeting",
-            content: <TabsContent FormComponent={(props) => <JoinMeetForm {...props} createPeer={createPeer} />} />,
+            content: <TabsContent FormComponent={JoinMeetForm} />,
         },
     ];
 
@@ -40,4 +35,4 @@ const PreMeet = () => {
     );
 };
 
-export default PreMeet;
+export default Meet;
