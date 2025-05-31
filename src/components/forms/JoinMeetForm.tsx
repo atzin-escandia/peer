@@ -51,8 +51,8 @@ export const JoinMeetForm = ({ createPeer }: JoinMeetFormProps) => {
                     Join meeting
                 </h2>
                 <Input
+                    title="Your name"
                     placeholder="Name"
-                    placeholder="A cool name"
                     {...register("username", {
                         onChange: (e) => setUsername(e.target.value),
                     })}

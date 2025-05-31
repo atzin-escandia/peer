@@ -6,7 +6,7 @@ type ButtonProps = {
     children?: React.ReactNode;
     disabled?: boolean;
     icon?: React.ReactNode;
-    variant?: "default" | "danger" | "ghost";
+    variant?: "default" | "danger" | "ghost" | 'dangerFull';
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const baseStyles =
@@ -20,6 +20,8 @@ const variantStyles = {
         "bg-[var(--bg-color)] border-b border-[var(--border-color)]",
     danger:
         "bg-[var(--bg-danger)] text-[var(--border-danger)] border border-red-500",
+    dangerFull:
+        "bg-[var(--border-danger)] text-white border border-red-500",
     ghost: "border-none p-0"
 };
 

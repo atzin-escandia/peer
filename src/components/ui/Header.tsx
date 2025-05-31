@@ -9,7 +9,7 @@ export const Header = () => {
                 <Link className="flex items-center" to="/">
                     <LogoIcon size={40} />
                     <h1 className="ml-2 whitespace-nowrap font-extrabold text-xl md:text-2xl lg:text-3xl hidden sm:block">
-                        Snap Grid
+                        PeerMeet
                     </h1>
                 </Link>
                 <div className="flex gap-2 sm:gap-5">

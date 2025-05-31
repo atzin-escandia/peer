@@ -39,7 +39,7 @@ export const Controls = ({ isPreMeet }: { isPreMeet?: boolean }) => {
             {
                 !isPreMeet && <Button
                     onClick={endCall}
-                    variant="danger"
+                    variant="dangerFull"
                     icon={<PhoneDisconnectIcon />}
                     aria-label="End call"
                     disabled={!stream}

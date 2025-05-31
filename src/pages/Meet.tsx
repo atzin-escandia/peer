@@ -1,25 +1,24 @@
-import { useEffect } from "react";
-import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "@store/index";
 import PreMeet from "@components/PreMeet";
-import { CopyCodeToast } from "@components/toasters/CopyCodeToast";
 import { Controls } from "@components/Controls";
 import { LocalVideo } from "@components/LocalVideo";
 import { RemoteVideo } from "@components/RemoteVideo";
 import Loading from "@components/Loading";
 import Button from "@components/ui/Button";
-import { CameraIcon } from "@components/ui/Icons";
+import { CameraIcon, ChatIcon, } from "@components/ui/Icons";
+import Chat from "@components/Chat";
+import { MeetingCodeDialog } from "@components/MeetingCodeDialog";
 
 export const Meet = () => {
     const { status, meetingId } = useSelector((state: RootState) => state.call);
+    const [isChatOpen, setIsChatOpen] = useState(false);
+    const [open, setOpen] = useState(false);
 
     useEffect(() => {
         if (status === "available" && meetingId) {
-            toast.custom(
-                (t) => <CopyCodeToast toast={t} meetingId={meetingId} />,
-                { duration: Infinity }
-            );
+            setOpen(true)
         }
     }, [status, meetingId]);
 
@@ -47,12 +46,20 @@ export const Meet = () => {
 
             default:
                 return (
-                    <div className="space-y-5">
-                        <div className="relative w-full h-[calc(100vh-200px)]">
-                            <LocalVideo isMeet />
-                            <RemoteVideo />
+                    <div className="relative flex w-full">
+                        <div className="flex flex-col flex-1 space-y-5">
+                            <div className="relative w-full h-[calc(100vh-200px)]">
+                                <LocalVideo isMeet />
+                                <RemoteVideo />
+                            </div>
+                            <div className="grid grid-cols-3 items-center w-full px-5">
+                                <div />
+                                <Controls />
+                                <Button className="ml-auto" onClick={() => setIsChatOpen(true)} icon={<ChatIcon />} />
+                            </div>
                         </div>
-                        <Controls />
+                        {isChatOpen && <Chat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />}
+                        <MeetingCodeDialog open={open} setOpen={setOpen} meetingId={meetingId as string} />
                     </div>
                 );
         }
