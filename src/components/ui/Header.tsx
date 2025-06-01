@@ -14,7 +14,7 @@ export const Header = () => {
             <div className="h-full flex justify-between items-center ">
                 <Link className="flex items-center" to="/">
                     <LogoIcon size={40} />
-                    <h1 className="ml-2 whitespace-nowrap font-extrabold text-xl md:text-2xl lg:text-3xl hidden sm:block">
+                    <h1 className="ml-2 whitespace-nowrap hidden sm:block font-extrabold text-xl md:text-2xl lg:text-3xl">
                         PeerMeet
                     </h1>
                 </Link>

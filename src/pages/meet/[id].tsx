@@ -13,6 +13,7 @@ import Chat from "@components/Chat";
 import { useSelector } from "react-redux";
 import type { RootState } from "@store/index";
 import { StreamWarning } from "@components/boundaries/StreamWarning";
+import clsx from "clsx";
 
 const MeetRoom = () => {
     const { id } = useParams<{ id: string }>();
@@ -38,7 +39,7 @@ const MeetRoom = () => {
             case "disconnected":
                 return (
                     <div className="text-center space-y-10">
-                        <p className="text-white">
+                        <p className="text-white md:text-xl">
                             Call ended. Please start a new meeting.
                         </p>
                         <Button
@@ -52,9 +53,9 @@ const MeetRoom = () => {
 
             default:
                 return (
-                    <div className="relative flex w-full h-full overflow-hidden">
-                        <div className="flex flex-col flex-1 space-y-5 h-full overflow-hidden">
-                            <div className="relative flex-1 w-full overflow-hidden pt-10">
+                    <div className="relative sm:flex w-full h-full sm:overflow-hidden">
+                        <div className={clsx(isChatOpen && 'h-2/3 sm:h-full', "flex flex-col flex-1 space-y-5 overflow-hidden")}>
+                            <div className="relative flex-1 w-full overflow-hidden pt-10 items-center space-y-10 md:space-y-0 ">
                                 <LocalVideo isMeet />
                                 <RemoteVideo />
                             </div>
@@ -69,7 +70,7 @@ const MeetRoom = () => {
                             </div>
                         </div>
                         {isChatOpen && (
-                            <div className="w-[300px] h-full overflow-y-auto border-l border-gray-800 bg-black">
+                            <div className="h-1/3 sm:h-full overflow-y-auto border-l border-gray-800 bg-black">
                                 <Chat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
                             </div>
                         )}

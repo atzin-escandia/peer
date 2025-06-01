@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 type UserContextType = {
     username: string;
@@ -8,7 +8,21 @@ type UserContextType = {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-    const [username, setUsername] = useState("");
+    const [username, setUsernameState] = useState(() => {
+        return localStorage.getItem("username") || "";
+    });
+
+    useEffect(() => {
+        if (username) {
+            localStorage.setItem("username", username);
+        } else {
+            localStorage.removeItem("username");
+        }
+    }, [username]);
+
+    const setUsername = (name: string) => {
+        setUsernameState(name);
+    };
 
     return (
         <UserContext.Provider value={{ username, setUsername }}>

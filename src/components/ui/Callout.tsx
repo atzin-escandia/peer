@@ -8,7 +8,7 @@ type CalloutProps = {
 };
 
 const baseStyles =
-    "flex items-center gap-3 px-4 py-3 rounded-xl border w-full text-xs max-w-[450px]";
+    "flex items-center gap-3 px-4 py-3 rounded-xl border w-full text-xs max-w-[300px] sm:max-w-[500px]";
 
 const variantStyles = {
     success:

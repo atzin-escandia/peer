@@ -14,9 +14,9 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
         return (
             <div className="relative">
                 {title && (
-                    <p className="text-xs mb-2 font-semibold" id={`${id}-title`}>
+                    <small className="mb-2" id={`${id}-title`}>
                         {title}
-                    </p>
+                    </small>
                 )}
                 {Icon && (
                     <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
@@ -37,9 +37,9 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
                     {...props}
                 />
                 {error && errorMessage && (
-                    <p className="text-red-500 text-xs mt-2 ml-2" id={`${id}-error`}>
+                    <small className="text-[var(--text-danger)] mt-2 ml-2" id={`${id}-error`}>
                         {errorMessage}
-                    </p>
+                    </small>
                 )}
             </div>
         );

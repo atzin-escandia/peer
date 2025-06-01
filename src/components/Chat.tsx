@@ -35,12 +35,12 @@ const Chat = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => 
     return (
         <div
             className={clsx(
-                "h-screen w-[300px] rounded-tl-3xl rounded-bl-3xl max-w-full bg-white text-black shadow-lg transition-transform duration-300 z-50 flex flex-col",
+                "sm:h-screen w-full sm:w-[250px] rounded-tl-3xl rounded-bl-3xl max-w-full bg-white text-black shadow-lg transition-transform duration-300 z-50 flex flex-col",
                 isOpen ? "translate-x-0" : "translate-x-full"
             )}
         >
             <div className="flex justify-between items-center h-[60px] pl-5 border-b">
-                <h2 className="text-lg font-semibold">Chat</h2>
+                <h4 className="text-2xl font-bold">Chat</h4>
                 <Button onClick={onClose} variant="ghost" icon={<CloseIcon />} />
             </div>
 

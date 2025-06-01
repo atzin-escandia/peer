@@ -58,11 +58,11 @@ export const JoinMeetForm = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center mt-10">
+        <div className="flex flex-col items-center justify-center md:mt-10">
             <form onSubmit={handleSubmit(onSubmit)} className="gap-10 space-y-5">
-                <h2 className="text-4xl font-bold mb-6 text-center">
+                <h3 className="mb-6 text-center hidden md:flex text-4xl font-bold">
                     Join meeting
-                </h2>
+                </h3>
                 <Input
                     title="Your name"
                     placeholder="Name"

@@ -19,8 +19,8 @@ const Tabs = ({ tabs }: TabsProps) => {
                 {tabs.map(({ id, label }) => (
                     <button
                         key={id}
-                        className={`flex-1 py-2 px-4 text-center cursor-pointer transition-colors font-semibold ${activeTab === id
-                            ? "border-b-2 border-[var(--border-main)] font-semibold text-[var(--text-main)]"
+                        className={`flex-1 py-2 px-4 text-center cursor-pointer transition-colors font-semibold text-sm ${activeTab === id
+                            ? "border-b-2 border-[var(--border-main)] font-semibold text-[var(--text-main)] "
                             : "hover:text-[var(--text-main)]/90"
                             }`}
                         onClick={() => setActiveTab(id)}

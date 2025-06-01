@@ -10,7 +10,7 @@
 
 	--text-main: #9333ea;
 	--text-color: #111827;
-	--text-danger: #111827;
+	--text-danger: #ff0000;
 	--text-warning: #c9591d;
 	--text-success: #178b21;
 
@@ -28,7 +28,6 @@
 .dark {
 	--bg-main-color: #220523;
 	--bg-color: #000000;
-
 	--text-color: #bababa;
 	--border-color: #555555;
 	--header-bg: #000000;

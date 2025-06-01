@@ -15,13 +15,13 @@ const VideoOverlay = () => {
                 <MicrophoneSlashIcon size={30} className="absolute bottom-5 left-5 text-white" />
             )}
             {(!isVideoEnabled || !videoTrackEnabled) && (
-                <div className="w-full h-full flex justify-center items-center absolute">
+                <div className="w-full sm:h-full flex justify-center items-center absolute">
                     <UserAvatar />
                 </div>
             )}
-            <h2 className="text-white text-sm absolute bottom-5 right-5 capitalize font-extrabold">
+            <p className="text-white text-sm absolute bottom-5 right-5 capitalize font-extrabold md:text-xl">
                 {username ? username.slice(0, 20) : "Your name"}
-            </h2>
+            </p>
         </>
     );
 };

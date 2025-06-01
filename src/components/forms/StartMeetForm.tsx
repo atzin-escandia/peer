@@ -38,11 +38,11 @@ export const StartMeetForm = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center mt-10">
+        <div className="flex flex-col items-center justify-center md:mt-10">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <h2 className="text-4xl font-bold mb-6 text-center ">
+                <h3 className="mb-6 text-center hidden md:flex text-4xl font-bold">
                     Start meeting
-                </h2>
+                </h3>
                 <Input
                     title="Your name"
                     placeholder="Name"
