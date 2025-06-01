@@ -9,6 +9,7 @@ import MeetRoom from "@pages/meet/[id]";
 import Meet from "@pages/meet";
 
 function App() {
+
   return (
     <Router>
       <Toaster position="top-right" />
@@ -17,7 +18,7 @@ function App() {
           <ThemeProvider>
             <main className="flex flex-col min-h-screen">
               <Header />
-              <div className="flex-1 mt-[60px]">
+              <div className="flex-1">
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/meet" element={<Meet />} />

@@ -34,6 +34,7 @@ const DialogContent = React.forwardRef<
   <DialogPortal>
     <DialogOverlay />
     <DialogPrimitive.Content
+      aria-describedby={undefined}
       ref={ref}
       className={clsx(
         "bg-white fixed left-1/2 top-1/2 p-3 z-50 grid w-full sm:max-w-lg",

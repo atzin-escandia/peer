@@ -80,6 +80,7 @@ export const useLocalMedia = () => {
 	const endCall = useCallback(() => {
 		if (stream) {
 			stream.getTracks().forEach((track) => track.stop());
+			// TODO: Clean stream addding new state endCall
 			setStream(null);
 		}
 		dispatch(setStatus("disconnected"));

@@ -20,7 +20,7 @@ const Meet = () => {
     ];
 
     return (
-        <section className="h-[calc(100vh-60px)] text-[var(--header-text)] border-r border-[var(--border-color)] md:grid grid-cols-2 gap-4]">
+        <section className="h-[calc(100vh-60px)] text-[var(--header-text)] border-r border-[var(--border-color)] md:grid grid-cols-2 gap-4] mt-[60px]">
             <div className="flex flex-col items-center justify-center">
                 <Card>
                     <Tabs tabs={tabs} />

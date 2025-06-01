@@ -2,17 +2,7 @@ import { CloseIcon, SendIcon } from "@components/ui/Icons";
 import clsx from "clsx";
 import Button from "./ui/Button";
 import { useState } from "react";
-
-const messages = [
-    { text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore", type: "sent" },
-    { text: "Lorem ipsum dolor sit amet, consectetur", type: "received" },
-    { text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore", type: "sent" },
-    { text: "Lorem ipsum dolor sit amet, consectetur", type: "received" },
-    { text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore", type: "sent" },
-    { text: "Lorem ipsum dolor sit amet, consectetur", type: "received" },
-    { text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore", type: "sent" },
-    { text: "Lorem ipsum dolor sit amet, consectetur", type: "received" },
-];
+import { MESSAGES } from "@utils/mockup";
 
 const ChatMessage = ({ text, type }: { text: string; type: "sent" | "received" }) => {
     const isSent = type === "sent";
@@ -45,7 +35,7 @@ const Chat = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => 
     return (
         <div
             className={clsx(
-                "h-screen relative -top-8 w-[300px] rounded-tl-3xl rounded-bl-3xl max-w-full bg-white text-black shadow-lg transition-transform duration-300 z-50 flex flex-col",
+                "h-screen w-[300px] rounded-tl-3xl rounded-bl-3xl max-w-full bg-white text-black shadow-lg transition-transform duration-300 z-50 flex flex-col",
                 isOpen ? "translate-x-0" : "translate-x-full"
             )}
         >
@@ -55,7 +45,7 @@ const Chat = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => 
             </div>
 
             <div className="flex-1 p-5 space-y-5 overflow-y-scroll flex flex-col bg-black/90">
-                {messages.map((msg, i) => (
+                {MESSAGES.map((msg, i) => (
                     <ChatMessage key={i} text={msg.text} type={msg.type as "sent" | "received"} />
                 ))}
             </div>

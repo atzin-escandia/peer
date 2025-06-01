@@ -6,10 +6,10 @@ import {
     DialogTitle,
     DialogHeader,
 } from "@components/ui/Dialog";
-import Button from "./ui/Button";
+import Button from "../ui/Button";
 import toast from "react-hot-toast";
-import { CheckIcon, CopyIcon } from "./ui/Icons";
-import Callout from "./ui/Callout";
+import { CheckIcon, CopyIcon } from "../ui/Icons";
+import Callout from "../ui/Callout";
 import confetti from "canvas-confetti";
 import { VITE_HTTP_URL } from "@utils/index";
 

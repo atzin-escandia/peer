@@ -1,3 +1,4 @@
+import { useMediaContext } from "@context/MediaContext";
 import Button from "./ui/Button";
 import {
     CameraIcon,
@@ -6,45 +7,48 @@ import {
     MicrophoneSlashIcon,
     PhoneDisconnectIcon,
 } from "./ui/Icons";
-import { useMediaContext } from "@context/MediaContext";
+import { useTrackStatus } from "@hooks/useTrackStatus";
+
 export const Controls = ({ isPreMeet }: { isPreMeet?: boolean }) => {
     const {
         toggleAudio,
         toggleVideo,
         isAudioEnabled,
         isVideoEnabled,
-        stream,
         endCall,
     } = useMediaContext();
 
-    const audioActive = stream && isAudioEnabled;
-    const videoActive = stream && isVideoEnabled;
+    const {
+        audioTrackEnabled,
+        videoTrackEnabled,
+        hasAudioTrack,
+        hasVideoTrack,
+    } = useTrackStatus();
 
     return (
         <div className="flex gap-6 justify-center p-4">
             <Button
                 onClick={toggleAudio}
-                variant={audioActive ? "default" : "danger"}
-                icon={audioActive ? <MicrophoneIcon /> : <MicrophoneSlashIcon />}
-                aria-label={audioActive ? "Mute microphone" : "Unmute microphone"}
-                disabled={!stream}
+                variant={!audioTrackEnabled ? "danger" : isAudioEnabled ? "default" : "danger"}
+                icon={isAudioEnabled ? <MicrophoneIcon /> : <MicrophoneSlashIcon />}
+                aria-label={isAudioEnabled ? "Mute microphone" : "Unmute microphone"}
+                disabled={!hasAudioTrack}
             />
             <Button
                 onClick={toggleVideo}
-                variant={videoActive ? "default" : "danger"}
-                icon={videoActive ? <CameraIcon /> : <CameraSlashIcon />}
-                aria-label={videoActive ? "Turn off camera" : "Turn on camera"}
-                disabled={!stream}
+                variant={!videoTrackEnabled ? "danger" : isVideoEnabled ? "default" : "danger"}
+                icon={isVideoEnabled ? <CameraIcon /> : <CameraSlashIcon />}
+                aria-label={isVideoEnabled ? "Turn off camera" : "Turn on camera"}
+                disabled={!hasVideoTrack}
             />
-            {
-                !isPreMeet && <Button
+            {!isPreMeet && (
+                <Button
                     onClick={endCall}
                     variant="dangerFull"
                     icon={<PhoneDisconnectIcon />}
                     aria-label="End call"
-                    disabled={!stream}
                 />
-            }
+            )}
         </div>
     );
-};
+}

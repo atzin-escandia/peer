@@ -3,7 +3,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
-import { useMediaContext } from "@context/MediaContext";
 import { useUserContext } from "@context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -18,7 +17,6 @@ const usernameSchema = z.object({
 type FormData = z.infer<typeof usernameSchema>;
 
 export const StartMeetForm = () => {
-    const { stream } = useMediaContext();
     const { username, setUsername } = useUserContext();
     const navigate = useNavigate();
 
@@ -55,7 +53,7 @@ export const StartMeetForm = () => {
                     errorMessage={errors.username?.message}
                 />
                 <div className="flex justify-center mt-5">
-                    <Button type="submit" disabled={!isValid || !stream}>
+                    <Button type="submit" disabled={!isValid}>
                         Start meeting
                     </Button>
                 </div>

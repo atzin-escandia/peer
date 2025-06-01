@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useMediaContext } from "@context/MediaContext";
 import { useWebRTC } from "@hooks/useWebRTC";
@@ -8,10 +8,11 @@ import Button from "@components/ui/Button";
 import { CameraIcon, ChatIcon } from "@components/ui/Icons";
 import { Controls } from "@components/Controls";
 import Loading from "@components/Loading";
-import { MeetingCodeDialog } from "@components/MeetingCodeDialog";
+import { MeetingCodeDialog } from "@components/dialogs/MeetingCodeDialog";
 import Chat from "@components/Chat";
 import { useSelector } from "react-redux";
 import type { RootState } from "@store/index";
+import { StreamWarning } from "@components/boundaries/StreamWarning";
 
 const MeetRoom = () => {
     const { id } = useParams<{ id: string }>();
@@ -20,19 +21,14 @@ const MeetRoom = () => {
     const [open, setOpen] = useState(false);
     const [isChatOpen, setIsChatOpen] = useState(false);
     const { status } = useSelector((state: RootState) => state.call);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        if (id && stream) {
+        if (id) {
             createPeer(true);
-        }
-    }, [id, stream]);
-
-    useEffect(() => {
-        if (status === "available" && id) {
             setOpen(true)
         }
-    }, [status, id]);
-
+    }, [id, stream]);
 
     const RenderContent = () => {
         switch (status) {
@@ -46,7 +42,7 @@ const MeetRoom = () => {
                             Call ended. Please start a new meeting.
                         </p>
                         <Button
-                            onClick={() => window.location.reload()}
+                            onClick={() => navigate('/')}
                             icon={<CameraIcon />}
                         >
                             New meeting
@@ -56,27 +52,36 @@ const MeetRoom = () => {
 
             default:
                 return (
-                    <div className="relative flex w-full">
-                        <div className="flex flex-col flex-1 space-y-5">
-                            <div className="relative w-full h-[calc(100vh-200px)]">
+                    <div className="relative flex w-full h-full overflow-hidden">
+                        <div className="flex flex-col flex-1 space-y-5 h-full overflow-hidden">
+                            <div className="relative flex-1 w-full overflow-hidden pt-10">
                                 <LocalVideo isMeet />
                                 <RemoteVideo />
                             </div>
-                            <div className="grid grid-cols-3 items-center w-full px-5">
+                            <div className="grid grid-cols-3 items-center w-full px-5 pb-5">
                                 <div />
                                 <Controls />
-                                <Button className="ml-auto" onClick={() => setIsChatOpen(true)} icon={<ChatIcon />} />
+                                <Button
+                                    className="ml-auto"
+                                    onClick={() => setIsChatOpen(true)}
+                                    icon={<ChatIcon />}
+                                />
                             </div>
                         </div>
-                        {isChatOpen && <Chat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />}
+                        {isChatOpen && (
+                            <div className="w-[300px] h-full overflow-y-auto border-l border-gray-800 bg-black">
+                                <Chat isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+                            </div>
+                        )}
                         <MeetingCodeDialog open={open} setOpen={setOpen} meetingId={id as string} />
+                        <StreamWarning className="absolute top-5 left-5" />
                     </div>
                 );
         }
     };
 
     return (
-        <section className="relative flex flex-col justify-center items-center h-[calc(100vh-60px)] bg-black">
+        <section className="relative flex flex-col justify-center items-center bg-black h-screen">
             <RenderContent />
         </section>
     );

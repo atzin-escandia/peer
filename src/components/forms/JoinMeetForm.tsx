@@ -4,8 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "../ui/Button";
 import Input from "../ui/Input";
 import Textarea from "@components/ui/Textarea";
-
-import { useMediaContext } from "@context/MediaContext";
 import { useUserContext } from "@context/UserContext";
 import { useNavigate } from "react-router-dom";
 import { VITE_HTTP_URL } from "@utils/index";
@@ -21,7 +19,6 @@ const joinMeetSchema = z.object({
 type FormData = z.infer<typeof joinMeetSchema>;
 
 export const JoinMeetForm = () => {
-    const { stream } = useMediaContext();
     const { setUsername, username } = useUserContext();
     const navigate = useNavigate();
 
@@ -83,7 +80,7 @@ export const JoinMeetForm = () => {
                     errorMessage={errors.link?.message}
                 />
                 <div className="flex justify-center mt-5">
-                    <Button type="submit" disabled={!isValid || !stream}>
+                    <Button type="submit" disabled={!isValid}>
                         Join Call
                     </Button>
                 </div>

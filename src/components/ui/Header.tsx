@@ -1,8 +1,14 @@
+import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { LogoIcon } from "./Icons";
 import ThemeToggleButton from "@components/ThemeToggle";
 
 export const Header = () => {
+    const location = useLocation();
+    const hideHeader = /^\/meet\/[^/]+$/.test(location.pathname);
+
+    if (hideHeader) return null;
+
     return (
         <header className="fixed px-5 lg:px-20 xl:px-40 w-full z-10 h-[60px] bg-[var(--header-bg)] text-[var(--header-text)] border-b border-[var(--border-color)]">
             <div className="h-full flex justify-between items-center ">
