@@ -8,8 +8,9 @@ import {
     PhoneDisconnectIcon,
 } from "./ui/Icons";
 import { useTrackStatus } from "@hooks/useTrackStatus";
+import { memo } from 'react';
 
-export const Controls = ({ isPreMeet }: { isPreMeet?: boolean }) => {
+const Controls = ({ isPreMeet }: { isPreMeet?: boolean }) => {
     const {
         toggleAudio,
         toggleVideo,
@@ -52,3 +53,5 @@ export const Controls = ({ isPreMeet }: { isPreMeet?: boolean }) => {
         </div>
     );
 }
+
+export default memo(Controls);

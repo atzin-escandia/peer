@@ -1,101 +1,87 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen } from "@testing-library/react";
-import { useParams, useNavigate } from "react-router-dom";
+import { render, screen, waitFor } from "@testing-library/react";
+import { useParams } from "react-router-dom";
+import { useMediaContext } from "@context/MediaContext";
+import { useWebRTC } from "@hooks/useWebRTC";
 import { useSelector } from "react-redux";
 import MeetRoom from "@pages/meet/[id]";
 
-vi.mock("react-router-dom", async () => {
-    const actual = await vi.importActual("react-router-dom");
-    return {
-        ...actual,
-        useParams: vi.fn(),
-        useNavigate: vi.fn(),
-    };
-});
+vi.mock("react-router-dom", () => ({
+    useParams: vi.fn(),
+}));
 
 vi.mock("@context/MediaContext", () => ({
-    useMediaContext: () => ({ stream: {} }),
+    useMediaContext: vi.fn(),
 }));
 
 vi.mock("@hooks/useWebRTC", () => ({
-    useWebRTC: () => ({ createPeer: vi.fn() }),
+    useWebRTC: vi.fn(),
 }));
 
-vi.mock("react-redux", async () => {
-    const actual = await vi.importActual("react-redux");
-    return {
-        ...actual,
-        useSelector: vi.fn(),
-    };
-});
+vi.mock("react-redux", () => ({
+    useSelector: vi.fn(),
+}));
 
-vi.mock("@components/LocalVideo", () => ({
-    LocalVideo: () => <div data-testid="local-video" />,
-}));
-vi.mock("@components/RemoteVideo", () => ({
-    RemoteVideo: () => <div data-testid="remote-video" />,
-}));
-vi.mock("@components/Controls", () => ({
-    Controls: () => <div data-testid="controls" />,
-}));
-vi.mock("@components/Chat", () => ({
-    default: ({ isOpen }: { isOpen: boolean }) =>
-        isOpen ? <div data-testid="chat">Chat Open</div> : null,
-}));
-vi.mock("@components/ui/Button", () => ({
-    default: ({ children, onClick }: any) => (
-        <button onClick={onClick}>{children}</button>
-    ),
-}));
-vi.mock("@components/ui/Icons", () => ({
-    CameraIcon: () => <div data-testid="camera-icon" />,
-    ChatIcon: () => <div data-testid="chat-icon" />,
-}));
-vi.mock("@components/Loading", () => ({
-    default: () => <div data-testid="loading" />,
-}));
-vi.mock("@components/dialogs/MeetingCodeDialog", () => ({
-    MeetingCodeDialog: ({ open }: { open: boolean }) =>
-        open ? <div data-testid="meeting-code-dialog" /> : null,
-}));
 vi.mock("@components/boundaries/StreamWarning", () => ({
     StreamWarning: () => <div data-testid="stream-warning" />,
 }));
 
-describe("MeetRoom", () => {
-    const mockNavigate = vi.fn();
+vi.mock("@components/MeetContent", () => ({
+    __esModule: true,
+    default: ({ status, meetingId, isDialogOpen }: any) => (
+        <div data-testid="meet-content">
+            Status: {status}, MeetingId: {meetingId}, DialogOpen: {isDialogOpen ? "yes" : "no"}
+        </div>
+    ),
+}));
+
+vi.mock("@components/ui/Loading", () => ({
+    __esModule: true,
+    default: () => <div data-testid="loading" />,
+}));
+
+describe("MeetRoom component", () => {
+    const mockCreatePeer = vi.fn();
 
     beforeEach(() => {
         vi.clearAllMocks();
-        (useParams as any).mockReturnValue({ id: "abc123" });
-        (useNavigate as any).mockReturnValue(mockNavigate);
+
+        (useParams as vi.Mock).mockReturnValue({ id: "test-meeting-id" });
+        (useMediaContext as vi.Mock).mockReturnValue({ stream: {} });
+        (useWebRTC as vi.Mock).mockReturnValue({ createPeer: mockCreatePeer });
+        (useSelector as vi.Mock).mockImplementation((selector) =>
+            selector({ call: { status: "connected" } })
+        );
     });
 
-    it("renders loading screen when status is 'connecting'", () => {
-        (useSelector as any).mockReturnValue({ status: "connecting" });
+    it("renders Loading when no stream", () => {
+        (useMediaContext as vi.Mock).mockReturnValue({ stream: null });
 
         render(<MeetRoom />);
-
         expect(screen.getByTestId("loading")).toBeInTheDocument();
     });
 
-    it("shows disconnected message when status is 'disconnected'", () => {
-        (useSelector as any).mockReturnValue({ status: "disconnected" });
-
+    it("calls createPeer and sets dialog open on mount when id and stream exist", async () => {
         render(<MeetRoom />);
 
-        expect(
-            screen.getByText(/call ended\. please start a new meeting/i)
-        ).toBeInTheDocument();
-        expect(screen.getByRole("button", { name: /new meeting/i })).toBeInTheDocument();
+        await waitFor(() => {
+            expect(mockCreatePeer).toHaveBeenCalledWith(true);
+        });
+
+        expect(screen.getByTestId("meet-content")).toHaveTextContent("DialogOpen: yes");
     });
 
-    it("shows meeting code dialog if id is present", () => {
-        (useSelector as any).mockReturnValue({ status: "connected" });
-
+    it("renders MeetContent and StreamWarning", () => {
         render(<MeetRoom />);
+        expect(screen.getByTestId("meet-content")).toBeInTheDocument();
+        expect(screen.getByTestId("stream-warning")).toBeInTheDocument();
+    });
 
-        expect(screen.getByTestId("meeting-code-dialog")).toBeInTheDocument();
+    it("passes correct props to MeetContent", () => {
+        render(<MeetRoom />);
+        const meetContent = screen.getByTestId("meet-content");
+        expect(meetContent).toHaveTextContent("Status: connected");
+        expect(meetContent).toHaveTextContent("MeetingId: test-meeting-id");
     });
 });

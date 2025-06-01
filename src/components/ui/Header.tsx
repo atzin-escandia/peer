@@ -10,7 +10,7 @@ export const Header = () => {
     if (hideHeader) return null;
 
     return (
-        <header className="fixed px-5 lg:px-20 xl:px-40 w-full z-10 h-[60px] bg-[var(--header-bg)] text-[var(--header-text)] border-b border-[var(--border-color)]">
+        <header className="fixed px-10  w-full z-10 h-[60px] bg-[var(--header-bg)] text-[var(--header-text)] border-b border-[var(--border-color)]">
             <div className="h-full flex justify-between items-center ">
                 <Link className="flex items-center" to="/">
                     <LogoIcon size={40} />

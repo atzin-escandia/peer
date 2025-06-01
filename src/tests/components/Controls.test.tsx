@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Controls } from "@components/Controls";
+import Controls from "@components/Controls";
 
 const toggleAudio = vi.fn();
 const toggleVideo = vi.fn();

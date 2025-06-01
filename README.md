@@ -1,55 +1,154 @@
-# React + TypeScript + Vite
+# 🎥 PeerMeet
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
+  <a href="https://peermeet.example.com" target="_blank" rel="noopener noreferrer">
+    <img src="./banner.png" alt="PeerMeet Banner" />
+  </a>
 
-Currently, two official plugins are available:
+  <p>A clean, performant WebRTC video calling frontend built with React + TypeScript.</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+  <div>
+    <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+    <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" />
+    <img src="https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" />
+    <img src="https://img.shields.io/badge/Vite-F7DF1E?style=for-the-badge&logo=vite&logoColor=black" />
+  </div>
+</div>
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🧠 About the Project
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+PeerMeet is a **WebRTC frontend application for video calling**, designed as a Single Page Application (SPA) with React and TypeScript.
+
+The focus is on **clean architecture, performance, and a smooth user experience** without relying on any backend or signaling server implementation. It demonstrates proficiency in WebRTC, React hooks, state management, and real-time UI updates.
+
+---
+
+## ✨ Features
+
+-   🎥 **Video Calling with WebRTC**
+
+    -   Peer-to-peer video and audio streaming using `simple-peer`.
+    -   Support for local and remote video streams.
+    -   Dynamic UI updates on connection status.
+
+-   🔄 **Real-time State Management**
+
+    -   Uses React Context and Redux Toolkit for managing call state.
+    -   Efficient event handling and UI synchronization.
+
+-   🧩 **Clean Component Architecture**
+
+    -   Modular React components with separation of concerns.
+    -   Custom hooks for WebRTC and media stream logic.
+
+-   ⚙️ **Performance Optimizations**
+
+    -   Lazy loading components with React `Suspense`.
+    -   Memoization using `React.memo` and hooks like `useCallback` and `useMemo`.
+    -   Optimized bundle with Vite.
+
+-   📱 **Responsive UI**
+
+    -   Mobile-first design with Tailwind CSS.
+    -   Accessible controls for muting, ending calls, and toggling video.
+
+-   🧪 **Testing & Type Safety**
+
+    -   Written fully in **TypeScript**.
+    -   Unit tests with **Vitest** covering key components and hooks.
+    -   ESLint and Prettier for code quality.
+
+---
+
+## 🔧 Technologies
+
+-   **React** + **React Router DOM**
+-   **TypeScript**
+-   **Vite** for fast development and build
+-   **Redux Toolkit** for state management
+-   **Tailwind CSS** for styling
+-   **Simple-Peer** for WebRTC abstraction
+-   **Vitest** for testing
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/atzin-escandia/peermeet
+cd peermeet
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Install dependencies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+yarn install
 ```
-# peer
+
+### 3. Run the development server
+
+```bash
+yarn dev
+```
+
+### 4. Build for production
+
+```bash
+yarn build
+```
+
+### 5. Preview production build
+
+```bash
+yarn preview
+```
+
+---
+
+## 🧪 Testing
+
+Run tests with:
+
+```bash
+yarn test
+```
+
+---
+
+## 📈 Performance Strategy
+
+To achieve smooth video calling and efficient UI updates:
+
+-   Minimal external dependencies beyond `simple-peer`.
+-   React memoization (`memo`, `useCallback`, `useMemo`) to prevent unnecessary renders.
+-   Lazy loading of non-critical components with `Suspense`.
+-   Clean separation of UI and WebRTC signaling/state logic.
+-   Optimized build with Vite for fast load and bundle size.
+
+---
+
+## 🧱 Design Decisions
+
+-   SPA with React Router for smooth navigation between call and setup screens.
+-   Redux Toolkit for predictable state management and ease of debugging.
+-   Tailwind CSS for rapid and responsive UI styling.
+-   Custom hooks to encapsulate WebRTC peer connection and media stream handling.
+-   TypeScript for type safety across components and hooks.
+
+---
+
+## 📚 Resources
+
+-   [WebRTC API Docs](https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API)
+-   [Simple-Peer GitHub](https://github.com/feross/simple-peer)
+-   [React Docs](https://react.dev/)
+-   [Redux Toolkit Docs](https://redux-toolkit.js.org/)
+-   [Tailwind CSS Docs](https://tailwindcss.com/docs)
+
+---
+
+## Made with ❤️ by [Atzin Escandia](https://theplumup.com/)

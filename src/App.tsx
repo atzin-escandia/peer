@@ -13,22 +13,21 @@ function App() {
   return (
     <Router>
       <Toaster position="top-right" />
-      <MediaProvider>
-        <UserProvider>
-          <ThemeProvider>
-            <main className="flex flex-col min-h-screen">
-              <Header />
-              <div className="flex-1">
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/meet" element={<Meet />} />
-                  <Route path="/meet/:id" element={<MeetRoom />} />
-                </Routes>
-              </div>
-            </main>
-          </ThemeProvider>
-        </UserProvider>
-      </MediaProvider>
+      <UserProvider>
+        <ThemeProvider>
+          <main className="flex flex-col min-h-screen">
+            <Header />
+            <div className="flex-1">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/meet" element={<MediaProvider> <Meet /> </MediaProvider>} />
+                <Route path="/meet/:id" element={<MediaProvider> <MeetRoom /> </MediaProvider>}
+                />
+              </Routes>
+            </div>
+          </main>
+        </ThemeProvider>
+      </UserProvider>
     </Router>
   )
 }

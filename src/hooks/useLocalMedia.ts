@@ -13,6 +13,7 @@ export const useLocalMedia = () => {
 	const getMedia = async (constraints: MediaStreamConstraints) => {
 		try {
 			return await navigator.mediaDevices.getUserMedia(constraints);
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		} catch (err) {
 			return null;
 		}

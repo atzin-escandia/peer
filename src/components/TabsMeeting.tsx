@@ -1,5 +1,5 @@
-import { Controls } from "@components/Controls";
 import { StreamWarning } from "./boundaries/StreamWarning";
+import Controls from "./Controls";
 
 const TabsContent = ({ FormComponent }: { FormComponent: React.ElementType }) => {
     return (
