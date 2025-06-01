@@ -18,6 +18,7 @@ export const LocalVideo = ({ isMeet }: { isMeet?: boolean }) => {
     return (
         <>
             <video
+                data-testid="video"
                 ref={localRef}
                 autoPlay
                 playsInline
