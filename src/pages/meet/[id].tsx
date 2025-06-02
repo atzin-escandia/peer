@@ -19,6 +19,7 @@ const MeetRoom = () => {
             createPeer(true);
             setIsDialogOpen(true);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [id, stream]);
 
     return (

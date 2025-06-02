@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { useParams } from "react-router-dom";
 import { useMediaContext } from "@context/MediaContext";
 import { useWebRTC } from "@hooks/useWebRTC";
@@ -23,65 +23,53 @@ vi.mock("react-redux", () => ({
     useSelector: vi.fn(),
 }));
 
-vi.mock("@components/boundaries/StreamWarning", () => ({
-    StreamWarning: () => <div data-testid="stream-warning" />,
-}));
-
 vi.mock("@components/MeetContent", () => ({
     __esModule: true,
     default: ({ status, meetingId, isDialogOpen }: any) => (
         <div data-testid="meet-content">
-            Status: {status}, MeetingId: {meetingId}, DialogOpen: {isDialogOpen ? "yes" : "no"}
+            MeetContent {status} {meetingId} {isDialogOpen ? "open" : "closed"}
         </div>
     ),
 }));
 
-vi.mock("@components/ui/Loading", () => ({
-    __esModule: true,
-    default: () => <div data-testid="loading" />,
+vi.mock("@components/boundaries/StreamWarning", () => ({
+    StreamWarning: ({ status, className }: any) => (
+        <div data-testid="stream-warning" className={className}>
+            StreamWarning {status}
+        </div>
+    ),
 }));
 
 describe("MeetRoom component", () => {
     const mockCreatePeer = vi.fn();
+    const mockStream = {} as MediaStream;
 
     beforeEach(() => {
         vi.clearAllMocks();
 
-        (useParams as vi.Mock).mockReturnValue({ id: "test-meeting-id" });
-        (useMediaContext as vi.Mock).mockReturnValue({ stream: {} });
-        (useWebRTC as vi.Mock).mockReturnValue({ createPeer: mockCreatePeer });
-        (useSelector as vi.Mock).mockImplementation((selector) =>
-            selector({ call: { status: "connected" } })
+        (useParams as any).mockReturnValue({ id: "123" });
+        (useMediaContext as any).mockReturnValue({ stream: mockStream });
+        (useWebRTC as any).mockReturnValue({ createPeer: mockCreatePeer });
+        (useSelector as any).mockImplementation((selectorFn: any) =>
+            selectorFn({ call: { status: "connected" } })
         );
     });
 
-    it("renders Loading when no stream", () => {
-        (useMediaContext as vi.Mock).mockReturnValue({ stream: null });
-
+    it("calls createPeer and opens dialog when stream and id exist", () => {
         render(<MeetRoom />);
-        expect(screen.getByTestId("loading")).toBeInTheDocument();
+        expect(mockCreatePeer).toHaveBeenCalledWith(true);
+        expect(screen.getByTestId("meet-content")).toHaveTextContent("MeetContent connected 123 open");
     });
 
-    it("calls createPeer and sets dialog open on mount when id and stream exist", async () => {
-        render(<MeetRoom />);
-
-        await waitFor(() => {
-            expect(mockCreatePeer).toHaveBeenCalledWith(true);
-        });
-
-        expect(screen.getByTestId("meet-content")).toHaveTextContent("DialogOpen: yes");
-    });
-
-    it("renders MeetContent and StreamWarning", () => {
+    it("renders MeetContent and StreamWarning with correct props", () => {
         render(<MeetRoom />);
         expect(screen.getByTestId("meet-content")).toBeInTheDocument();
-        expect(screen.getByTestId("stream-warning")).toBeInTheDocument();
+        expect(screen.getByTestId("stream-warning")).toHaveTextContent("StreamWarning connected");
     });
 
-    it("passes correct props to MeetContent", () => {
+    it("does not call createPeer when stream is null", () => {
+        (useMediaContext as any).mockReturnValue({ stream: null });
         render(<MeetRoom />);
-        const meetContent = screen.getByTestId("meet-content");
-        expect(meetContent).toHaveTextContent("Status: connected");
-        expect(meetContent).toHaveTextContent("MeetingId: test-meeting-id");
+        expect(mockCreatePeer).not.toHaveBeenCalled();
     });
 });

@@ -32,7 +32,6 @@ describe("LocalVideo", () => {
         expect(videoElement.srcObject).toBe(mockStream);
     });
 
-
     it("renders with correct class when isMeet is true", () => {
         render(<LocalVideo isMeet />);
         const video = screen.getByTestId("video");
@@ -44,7 +43,7 @@ describe("LocalVideo", () => {
     it("renders with correct class when isMeet is false", () => {
         render(<LocalVideo />);
         const video = screen.getByTestId("video");
-        expect(video.className).toContain("w-full");
+        expect(video.className).toContain("min-w-[350px]");
         expect(video.className).toContain("aspect-video");
     });
 

@@ -16,7 +16,7 @@ export const ErrorState = ({
             )}
         >
             <div className="flex flex-col justify-center items-center gap-5">
-                <BugIcon />
+                <BugIcon size={30} />
                 <span className="text-2xl font-semibold">{message}</span>
             </div>
         </div>

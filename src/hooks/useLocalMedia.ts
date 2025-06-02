@@ -29,8 +29,10 @@ export const useLocalMedia = () => {
 					return;
 				}
 
-				const videoMedia = await getMedia({ video: true });
-				const audioMedia = await getMedia({ audio: true });
+				const [videoMedia, audioMedia] = await Promise.all([
+					getMedia({ video: true }),
+					getMedia({ audio: true }),
+				]);
 
 				if (videoMedia || audioMedia) {
 					const combinedStream = new MediaStream([
@@ -72,16 +74,24 @@ export const useLocalMedia = () => {
 			setIsVideoEnabled(videoTrack?.enabled ?? false);
 		};
 
-		audioTrack?.addEventListener("enabled", handleTrackChange);
-		audioTrack?.addEventListener("disabled", handleTrackChange);
-		videoTrack?.addEventListener("enabled", handleTrackChange);
-		videoTrack?.addEventListener("disabled", handleTrackChange);
+		const addTrackListeners = (track: MediaStreamTrack | undefined) => {
+			if (!track) return;
+			track.addEventListener("enabled", handleTrackChange);
+			track.addEventListener("disabled", handleTrackChange);
+		};
+
+		const removeTrackListeners = (track: MediaStreamTrack | undefined) => {
+			if (!track) return;
+			track.removeEventListener("enabled", handleTrackChange);
+			track.removeEventListener("disabled", handleTrackChange);
+		};
+
+		addTrackListeners(audioTrack);
+		addTrackListeners(videoTrack);
 
 		return () => {
-			audioTrack?.removeEventListener("enabled", handleTrackChange);
-			audioTrack?.removeEventListener("disabled", handleTrackChange);
-			videoTrack?.removeEventListener("enabled", handleTrackChange);
-			videoTrack?.removeEventListener("disabled", handleTrackChange);
+			removeTrackListeners(audioTrack);
+			removeTrackListeners(videoTrack);
 		};
 	}, [stream]);
 
@@ -105,7 +115,7 @@ export const useLocalMedia = () => {
 		stream?.getTracks().forEach((track) => track.stop());
 		setStream(null);
 		dispatch(setStatus("disconnected"));
-	}, [stream]);
+	}, [dispatch, stream]);
 
 	return {
 		stream,

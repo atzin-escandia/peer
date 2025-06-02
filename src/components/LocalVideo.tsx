@@ -7,7 +7,7 @@ export const LocalVideo = ({ isMeet }: { isMeet?: boolean }) => {
     const { stream } = useMediaContext();
     const localRef = useRef<HTMLVideoElement>(null);
 
-    const videoStyles = isMeet ? 'sm:absolute z-50 w-full sm:w-60 bottom-5 right-30 sm:p-0' : "w-full"
+    const videoStyles = isMeet ? 'sm:absolute z-10 w-full sm:w-60 bottom-5 right-30 sm:p-0' : " min-w-[350px]"
 
     useEffect(() => {
         if (localRef.current && stream) {

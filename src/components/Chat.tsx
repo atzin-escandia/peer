@@ -27,7 +27,7 @@ const Chat = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => 
 
     const handleSend = () => {
         if (message.trim()) {
-            console.log("Sending:", message);
+            console.info("Sending:", message);
             setMessage("");
         }
     };

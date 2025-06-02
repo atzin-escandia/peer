@@ -37,19 +37,19 @@ export const useWebRTC = (localStream?: MediaStream) => {
 		});
 
 		newPeer.on("signal", (data) => {
-			console.log("Generated signal...", data);
+			console.info("Generated signal...", data);
 			dispatch(setSignalData(data));
 			dispatch(setStatus("available"));
 		});
 
 		newPeer.on("stream", (remote) => {
-			console.log("Received remote stream");
+			console.info("Received remote stream");
 			dispatch(setRemoteStream(remote));
 			dispatch(setStatus("connected"));
 		});
 
 		newPeer.on("close", () => {
-			console.log("Peer connection closed");
+			console.info("Peer connection closed");
 			dispatch(resetCall());
 		});
 
@@ -63,7 +63,7 @@ export const useWebRTC = (localStream?: MediaStream) => {
 
 	const applyRemoteSignal = (signalData: Peer.SignalData) => {
 		try {
-			console.log("Applying remote signal...");
+			console.info("Applying remote signal...");
 			peerRef.current?.signal(signalData);
 		} catch (err) {
 			console.error("Failed to apply remote signal", err);

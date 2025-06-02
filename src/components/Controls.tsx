@@ -10,7 +10,7 @@ import {
 } from "./ui/Icons";
 import { memo } from "react";
 
-const Controls = ({ isPreMeet, onHandleChat }: { isPreMeet?: boolean; onHandleChat: () => void }) => {
+const Controls = ({ isPreMeet, onHandleChat }: { isPreMeet?: boolean; onHandleChat?: () => void }) => {
     const {
         toggleAudio,
         toggleVideo,

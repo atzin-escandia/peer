@@ -79,8 +79,8 @@ The focus is on **clean architecture, performance, and a smooth user experience*
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/atzin-escandia/peermeet
-cd peermeet
+git clone https://github.com/atzin-escandia/peer
+cd peer
 ```
 
 ### 2. Install dependencies
@@ -89,29 +89,33 @@ cd peermeet
 yarn install
 ```
 
-### 3. Run the development server
+### 3. Create a `.env` file
+
+Create a `.env` file in the root directory based on the existing `.env.example`:
+
+```bash
+cp .env.example .env
+```
+
+### 4. Run the development server
 
 ```bash
 yarn dev
 ```
 
-### 4. Build for production
+### 5. Build for production
 
 ```bash
 yarn build
 ```
 
-### 5. Preview production build
+### 6. Preview production build
 
 ```bash
 yarn preview
 ```
 
----
-
-## 🧪 Testing
-
-Run tests with:
+### 7. Run tests
 
 ```bash
 yarn test
@@ -152,3 +156,7 @@ To achieve smooth video calling and efficient UI updates:
 ---
 
 ## Made with ❤️ by [Atzin Escandia](https://theplumup.com/)
+
+```
+
+```

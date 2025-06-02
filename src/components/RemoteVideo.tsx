@@ -16,7 +16,7 @@ export const RemoteVideo = () => {
         autoPlay
         playsInline
         muted
-        className="aspect-video w-full sm:h-full  sm:p-0"
+        className="aspect-video w-full sm:h-full sm:p-0"
     />
     );
 };
