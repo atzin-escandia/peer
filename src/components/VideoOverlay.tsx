@@ -2,19 +2,22 @@ import { MicrophoneSlashIcon } from "@components/ui/Icons";
 import UserAvatar from "@components/UserAvatar";
 import { useMediaContext } from "@context/MediaContext";
 import { useUserContext } from "@context/UserContext";
-import { useTrackStatus } from "@hooks/useTrackStatus";
 
 const VideoOverlay = () => {
     const { username } = useUserContext();
-    const { isAudioEnabled, isVideoEnabled } = useMediaContext();
-    const { audioTrackEnabled, videoTrackEnabled } = useTrackStatus();
+    const {
+        isAudioEnabled,
+        isVideoEnabled,
+        hasAudioTrack,
+        hasVideoTrack,
+    } = useMediaContext();
 
     return (
         <>
-            {(!isAudioEnabled || !audioTrackEnabled) && (
+            {(!isAudioEnabled || !hasAudioTrack) && (
                 <MicrophoneSlashIcon size={30} className="absolute bottom-5 left-5 text-white" />
             )}
-            {(!isVideoEnabled || !videoTrackEnabled) && (
+            {(!isVideoEnabled || !hasVideoTrack) && (
                 <div className="w-full sm:h-full flex justify-center items-center absolute">
                     <UserAvatar />
                 </div>

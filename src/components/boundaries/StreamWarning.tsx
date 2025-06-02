@@ -1,9 +1,9 @@
 import Callout from "@components/ui/Callout";
 import { WarningIcon } from "@components/ui/Icons";
-import { useTrackStatus } from "@hooks/useTrackStatus";
+import { useMediaContext } from "@context/MediaContext";
 
-export const StreamWarning = ({ className }: { className?: string }) => {
-    const { hasAudioTrack, hasVideoTrack } = useTrackStatus();
+export const StreamWarning = ({ className, status }: { className?: string, status?: string }) => {
+    const { hasAudioTrack, hasVideoTrack } = useMediaContext();
 
     let warningText = "";
 
@@ -15,7 +15,7 @@ export const StreamWarning = ({ className }: { className?: string }) => {
         warningText = "camera.";
     }
 
-    return warningText ? (
+    return (warningText && status !== 'disconnected') ? (
         <Callout
             className={className}
             variant="warning"

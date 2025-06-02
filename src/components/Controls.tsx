@@ -3,55 +3,53 @@ import Button from "./ui/Button";
 import {
     CameraIcon,
     CameraSlashIcon,
+    ChatIcon,
     MicrophoneIcon,
     MicrophoneSlashIcon,
     PhoneDisconnectIcon,
 } from "./ui/Icons";
-import { useTrackStatus } from "@hooks/useTrackStatus";
-import { memo } from 'react';
+import { memo } from "react";
 
-const Controls = ({ isPreMeet }: { isPreMeet?: boolean }) => {
+const Controls = ({ isPreMeet, onHandleChat }: { isPreMeet?: boolean; onHandleChat: () => void }) => {
     const {
         toggleAudio,
         toggleVideo,
         isAudioEnabled,
         isVideoEnabled,
-        endCall,
-    } = useMediaContext();
-
-    const {
-        audioTrackEnabled,
-        videoTrackEnabled,
         hasAudioTrack,
         hasVideoTrack,
-    } = useTrackStatus();
+        endCall,
+    } = useMediaContext();
 
     return (
         <div className="flex gap-6 justify-center p-4">
             <Button
                 onClick={toggleAudio}
-                variant={!audioTrackEnabled ? "danger" : isAudioEnabled ? "default" : "danger"}
+                variant={isAudioEnabled ? "default" : "danger"}
                 icon={isAudioEnabled ? <MicrophoneIcon /> : <MicrophoneSlashIcon />}
                 aria-label={isAudioEnabled ? "Mute microphone" : "Unmute microphone"}
                 disabled={!hasAudioTrack}
             />
             <Button
                 onClick={toggleVideo}
-                variant={!videoTrackEnabled ? "danger" : isVideoEnabled ? "default" : "danger"}
+                variant={isVideoEnabled ? "default" : "danger"}
                 icon={isVideoEnabled ? <CameraIcon /> : <CameraSlashIcon />}
                 aria-label={isVideoEnabled ? "Turn off camera" : "Turn on camera"}
                 disabled={!hasVideoTrack}
             />
             {!isPreMeet && (
-                <Button
-                    onClick={endCall}
-                    variant="dangerFull"
-                    icon={<PhoneDisconnectIcon />}
-                    aria-label="End call"
-                />
+                <>
+                    <Button onClick={onHandleChat} icon={<ChatIcon />} />
+                    <Button
+                        onClick={endCall}
+                        variant="dangerFull"
+                        icon={<PhoneDisconnectIcon />}
+                        aria-label="End call"
+                    />
+                </>
             )}
         </div>
     );
-}
+};
 
 export default memo(Controls);
