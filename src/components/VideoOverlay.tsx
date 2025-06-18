@@ -23,7 +23,7 @@ const VideoOverlay = () => {
                 </div>
             )}
             <p className="text-white z-50 text-sm absolute bottom-1 right-5 capitalize font-extrabold md:text-xl">
-                {username ? username.slice(0, 20) : "Naame"}
+                {username ? username.slice(0, 20) : "Name"}
             </p>
         </>
     );
